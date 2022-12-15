@@ -16,11 +16,6 @@ def manager_signin(request):
         username = request.POST['username']
         password = request.POST['password']
 
-        user1 = User.objects.filter(username=username).exists()
-        print("---------------------------")
-        print(user1)
-        print("---------------------------")
-
         user = authenticate(username=username, password=password)
 
         if user is not None:
