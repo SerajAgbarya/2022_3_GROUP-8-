@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+  <link rel="stylesheet" href="{% static 'button.css' %}" />
+  <body>
+    <div class="card-outer">
+      <div class="card">
+        <img
+          src="https://www.w3schools.com/howto/img_avatar.png"
+          alt="Avatar"
+          style="width: 100%"
+        />
+        <div class="container">
+          <h4><b>Are you manager?</b></h4>
+          <a href="/app/manager-signin"
+            ><input class="btn log" type="button" value="Sing in"
+          /></a>
+        </div>
+      </div>
+      <div class="card">
+        <img
+          src="https://www.w3schools.com/w3images/avatar2.png"
+          alt="Avatar"
+          style="width: 100%"
+        />
+        <div class="container">
+          <h4><b>Are you worker?</b></h4>
+          <p><input class="btn log" type="button" value="Sing in" /></p>
+          <p><input class="btn reg" type="button" value="Sing up" /></p>
+        </div>
+      </div>
+      <div class="card">
+        <img
+          src="https://www.w3schools.com/bootstrap4/img_avatar1.png"
+          alt="Avatar"
+          style="width: 100%"
+        />
+        <div class="container">
+          <h4><b>Are you student?</b></h4>
+          <p><input class="btn log" type="button" value="Sing in" /></p>
+          <p><input class="btn reg" type="button" value="Sing up" /></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+pipenv install django // if not work use ==> sudo -H pip3 install -U pipenv
+pipenv install django
+
+you can see the bin folder in the url /Users/mohammadagbaryya/.local/share/virtualenvs/cdfi-XUNcufwX
+
+django-admin startproject cdfi .
+
+django-admin command to show all commands
+
+python3 manage.py runserver [PORT] // defualt port 8000
