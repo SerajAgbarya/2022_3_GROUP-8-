@@ -1,0 +1,36 @@
+<!doctype html>
+
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+
+        <h3>Sign In</h3>
+
+
+        <form action="/signin" method="post">
+        {% csrf_token %}
+            <label for="">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter username" required>
+            <br>
+
+            <label for="">Passowrd</label>
+            <input type="Passowrd" id="pass1" name="pass1" placeholder="Enter your password" required>
+            <br>
+
+
+
+            <button type="submit">sign-In</button>
+        </form>
+
+
+        <script src="" async defer></script>
+    </body>
+</html>
