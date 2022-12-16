@@ -18,7 +18,7 @@ def main(request):
 
 
 def student_signin(request):
-    return signin(request, "student-signin.html", "home-student.html")
+    return signin(request, "student/student-signin.html", "student/home-student.html")
 
 
 def manager_signin(request):
@@ -86,7 +86,7 @@ def student_signup(request):
         email.fail_silently = True
         email.send()
 
-        return redirect('signin')
+        return redirect('student_signin')
 
     return render(request, "student/signup.html")
 
@@ -104,6 +104,6 @@ def activate(request, uidb64, token):
         myuser.save()
         login(request, myuser)
         messages.success(request, "Your Account has been activated!!")
-        return redirect('signin')
+        return redirect('student_signin')
     else:
         return render(request, 'activation_failed.html')
