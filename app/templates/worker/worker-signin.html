@@ -4,7 +4,6 @@
   <link rel="stylesheet" href="{% static 'style.css' %}" />
   <link rel="stylesheet" href="{% static 'button.css' %}" />
   <body>
-
     <div class="card-outer">
       <div class="card">
         <img
@@ -12,9 +11,9 @@
           alt="Avatar"
           style="width: 100%"
         />
-        <form action="student-signin" method="post" class="container">
+        <form action="worker-signin" method="post" class="container">
           {% csrf_token %}
-          <h4><b>Student sign in page</b></h4>
+          <h4><b>Worker sign in page</b></h4>
           <h6 style="color:red"> {% if login_error %}<span>{{ login_error }}</span>{% endif %}</h6>
           <p>
             <input
@@ -39,7 +38,6 @@
           <p>
             <input type="submit" class="btn log" value="Sign in" />
           </p>
-
         </form>
       </div>
     </div>

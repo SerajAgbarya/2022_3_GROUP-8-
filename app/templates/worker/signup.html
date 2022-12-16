@@ -12,7 +12,7 @@
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <title>Student Sign Up</title>
+    <title>Worker Sign Up</title>
   </head>
   <body style="padding: 100px 200px">
     {% for message in messages %}
@@ -32,7 +32,7 @@
     </div>
     {% endfor %}
     <h3>Create your account!</h3>
-    <form method="post" action="/student-signup">
+    <form method="post" action="/worker-signup">
       <h6 style="color:red"> {% if signup_error %}<span>{{ signup_error }}</span>{% endif %}</h6>
       {% csrf_token %}
       <div class="form-group">
