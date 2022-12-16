@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 
 
 def signin(request, page_name, home_page):
+    context = {}
     if (request.method == 'POST'):
         username = request.POST['username']
         password = request.POST['password']
@@ -16,7 +17,8 @@ def signin(request, page_name, home_page):
             # messages.success(request, "Logged In Sucessfully!!")
             return render(request, home_page, {"name": username})
         else:
-            messages.error(request, "Bad Credentials!!")
-            return redirect('home')
+            context["login_error"] = "Bad Credentials!!"
+            # messages.error(request, "Bad Credentials!!")
+            # return redirect('home')
 
-    return render(request, page_name)
+    return render(request, page_name, context)
