@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+  <link rel="stylesheet" href="{% static 'button.css' %}" />
+  <body>
+    <div class="card-outer">
+      <div class="card">
+        <img
+          src="https://www.w3schools.com/howto/img_avatar.png"
+          alt="Avatar"
+          style="width: 100%"
+        />
+        <form action="worker-signin" method="post" class="container">
+          {% csrf_token %}
+          <h4><b>Worker sign in page</b></h4>
+          <p>
+            <input
+              required
+              id="username"
+              name="username"
+              class="textbox"
+              type="text"
+              placeholder="Enter username"
+            />
+          </p>
+          <p>
+            <input
+              required
+              id="password"
+              name="password"
+              class="textbox"
+              type="text"
+              placeholder="Enter password"
+            />
+          </p>
+          <p>
+            <input type="submit" class="btn log" value="Sign in" />
+          </p>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
