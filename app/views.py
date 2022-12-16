@@ -1,14 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.models import User
-from django.core.mail import EmailMessage, send_mail
 from django.shortcuts import render, redirect
-from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes
 from django.utils.encoding import force_str
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_decode
 
-from cdfi import settings
 from .signIn.signIn import signin
 from .signIn.signUp import signup
 from .tokens import generate_token
@@ -31,11 +27,12 @@ def worker_signin(request):
 
 
 def student_signup(request):
-    return signup(request, "student/signup.html", "student_signin")
+    return signup(request, "student/signup.html", "student_signin", "student/email_confirmation.html")
 
 
 def worker_signup(request):
-    return signup(request, "worker/signup.html", "worker_signin")
+    return signup(request, "worker/signup.html", "worker_signin", "worker/email_confirmation.html")
+
 
 def activate(request, uidb64, token):
     try:

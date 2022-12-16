@@ -10,7 +10,7 @@ from app.tokens import generate_token
 from cdfi import settings
 
 
-def signup(request, signup_page_path, signin_page_name):
+def signup(request, signup_page_path, signin_page_name, email_template):
     if request.method == "POST":
         username = request.POST['username']
         fname = request.POST['fname']
@@ -56,7 +56,8 @@ def signup(request, signup_page_path, signin_page_name):
         # Email Address Confirmation Email
         # current_site = get_current_site(request)
         email_subject = "Confirm your Email @ CDFI Login!!"
-        message2 = render_to_string('email_confirmation.html', {
+
+        message2 = render_to_string(email_template, {
             'name': myuser.first_name,
             'domain': '127.0.0.1:8000',
             'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
