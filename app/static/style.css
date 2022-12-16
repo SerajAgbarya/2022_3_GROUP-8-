@@ -3,6 +3,10 @@ body {
   font-family: verdana;
 }
 
+.space {
+  padding: 25px;
+}
+
 .title {
   text-align: center;
   color: white;
