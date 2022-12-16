@@ -11,6 +11,7 @@ from cdfi import settings
 
 
 def signup(request, signup_page_path, signin_page_name, email_template):
+    context = {}
     if request.method == "POST":
         username = request.POST['username']
         fname = request.POST['fname']
@@ -19,59 +20,56 @@ def signup(request, signup_page_path, signin_page_name, email_template):
         pass1 = request.POST['pass1']
         pass2 = request.POST['pass2']
 
-        # if User.objects.filter(username=username):
-        #     messages.error(request, "Username already exist! Please try some other username.")
-        #     return redirect('home')
+        if User.objects.filter(username=username):
+            context["signup_error"] = "Username already exist! Please try some other username."
 
-        # if User.objects.filter(email=email).exists():
-        #     messages.error(request, "Email Already Registered!!")
-        #     return redirect('home')
+        if User.objects.filter(email=email).exists():
+            context["signup_error"] = "Email Already Registered!!"
 
-        # if len(username) > 20:
-        #     messages.error(request, "Username must be under 20 charcters!!")
-        #     return redirect('home')
+        if len(username) > 20:
+            context["signup_error"] = "Username must be under 20 charcters!!"
 
-        # if pass1 != pass2:
-        #     messages.error(request, "Passwords didn't matched!!")
-        #     return redirect('home')
+        if pass1 != pass2:
+            context["signup_error"] = "Passwords didn't matched!!"
 
-        # if not username.isalnum():
-        #     messages.error(request, "Username must be Alpha-Numeric!!")
-        #     return redirect('home')
-        myuser = User.objects.create_user(username, email, pass1)
-        myuser.first_name = fname
-        myuser.last_name = lname
-        myuser.is_active = False
-        myuser.save()
-        messages.success(request,
-                         "Your Account has been created succesfully!! Please check your email to confirm your email address in order to activate your account.")
+        if not username.isalnum():
+            context["signup_error"] = "Username must be Alpha-Numeric!!"
 
-        # Welcome Email
-        subject = "Welcome to CDFI system!"
-        message = "Hello " + myuser.first_name + "!! \n" + "Welcome to CDFI system! \nThank you for visiting us\n. We have also sent you a confirmation email, please confirm your email address. \n\nThanking You"
-        from_email = settings.EMAIL_HOST_USER
-        to_list = [myuser.email]
-        send_mail(subject, message, from_email, to_list, fail_silently=True)
+        if not context:
+            myuser = User.objects.create_user(username, email, pass1)
+            myuser.first_name = fname
+            myuser.last_name = lname
+            myuser.is_active = False
+            myuser.save()
+            messages.success(request,
+                             "Your Account has been created succesfully!! Please check your email to confirm your email address in order to activate your account.")
 
-        # Email Address Confirmation Email
-        # current_site = get_current_site(request)
-        email_subject = "Confirm your Email @ CDFI Login!!"
+            # Welcome Email
+            subject = "Welcome to CDFI system!"
+            message = "Hello " + myuser.first_name + "!! \n" + "Welcome to CDFI system! \nThank you for visiting us\n. We have also sent you a confirmation email, please confirm your email address. \n\nThanking You"
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [myuser.email]
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
 
-        message2 = render_to_string(email_template, {
-            'name': myuser.first_name,
-            'domain': '127.0.0.1:8000',
-            'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
-            'token': generate_token.make_token(myuser)
-        })
-        email = EmailMessage(
-            email_subject,
-            message2,
-            settings.EMAIL_HOST_USER,
-            [myuser.email],
-        )
-        email.fail_silently = True
-        email.send()
+            # Email Address Confirmation Email
+            # current_site = get_current_site(request)
+            email_subject = "Confirm your Email @ CDFI Login!!"
 
-        return redirect(signin_page_name)
+            message2 = render_to_string(email_template, {
+                'name': myuser.first_name,
+                'domain': '127.0.0.1:8000',
+                'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
+                'token': generate_token.make_token(myuser)
+            })
+            email = EmailMessage(
+                email_subject,
+                message2,
+                settings.EMAIL_HOST_USER,
+                [myuser.email],
+            )
+            email.fail_silently = True
+            email.send()
 
-    return render(request, signup_page_path)
+            return redirect(signin_page_name)
+
+    return render(request, signup_page_path, context)
