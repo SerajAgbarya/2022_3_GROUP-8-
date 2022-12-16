@@ -41,30 +41,29 @@ def student_signup(request):
         pass1 = request.POST['pass1']
         pass2 = request.POST['pass2']
         
-        # if User.objects.filter(username=username):
-        #     messages.error(request, "Username already exist! Please try some other username.")
-        #     return redirect('home')
+        if User.objects.filter(username=username):
+            messages.error(request, "Username already exist! Please try some other username.")
+            return redirect('home')
         
-        # if User.objects.filter(email=email).exists():
-        #     messages.error(request, "Email Already Registered!!")
-        #     return redirect('home')
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Email Already Registered!!")
+            return redirect('home')
         
-        # if len(username)>20:
-        #     messages.error(request, "Username must be under 20 charcters!!")
-        #     return redirect('home')
+        if len(username)>20:
+            messages.error(request, "Username must be under 20 charcters!!")
+            return redirect('home')
         
-        # if pass1 != pass2:
-        #     messages.error(request, "Passwords didn't matched!!")
-        #     return redirect('home')
+        if pass1 != pass2:
+            messages.error(request, "Passwords didn't matched!!")
+            return redirect('home')
         
-        # if not username.isalnum():
-        #     messages.error(request, "Username must be Alpha-Numeric!!")
-        #     return redirect('home')
+        if not username.isalnum():
+            messages.error(request, "Username must be Alpha-Numeric!!")
+            return redirect('home')
         
         myuser = User.objects.create_user(username, email, pass1)
         myuser.first_name = fname
         myuser.last_name = lname
-        # myuser.is_active = False
         myuser.is_active = False
         myuser.save()
         messages.success(request, "Your Account has been created succesfully!! Please check your email to confirm your email address in order to activate your account.")
@@ -77,11 +76,11 @@ def student_signup(request):
         send_mail(subject, message, from_email, to_list, fail_silently=True)
         
         # Email Address Confirmation Email
-        current_site = get_current_site(request)
+        # current_site = get_current_site(request)
         email_subject = "Confirm your Email @ CDFI Login!!"
         message2 = render_to_string('email_confirmation.html',{
             'name': myuser.first_name,
-            'domain': current_site.domain,
+            'domain': '127.0.0.1:8000',
             'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
             'token': generate_token.make_token(myuser)
         })
