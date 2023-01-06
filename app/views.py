@@ -15,23 +15,23 @@ def main(request):
 
 
 def student_signin(request):
-    return signin(request, "student/student-signin.html", "student/home-student.html")
+    return signin(request, "student/student-signin.html", "student/home-student.html" ,"student")
 
 
 def manager_signin(request):
-    return signin(request, "manager-signin.html", "home-manager.html")
+    return signin(request, "manager-signin.html", "home-manager.html", "manager")
 
 
 def worker_signin(request):
-    return signin(request, "worker/worker-signin.html", "worker/home-worker.html")
+    return signin(request, "worker/worker-signin.html", "worker/home-worker.html","worker")
 
 
 def student_signup(request):
-    return signup(request, "student/signup.html", "student_signin", "student/email_confirmation.html")
+    return signup(request, "student/signup.html", "student_signin", "student/email_confirmation.html", "student")
 
 
 def worker_signup(request):
-    return signup(request, "worker/signup.html", "worker_signin", "worker/email_confirmation.html")
+    return signup(request, "worker/signup.html", "worker_signin", "worker/email_confirmation.html", "worker")
 
 
 def activate(request, uidb64, token):

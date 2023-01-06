@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.core.mail import EmailMessage, send_mail
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -10,7 +10,7 @@ from app.tokens import generate_token
 from cdfi import settings
 
 
-def signup(request, signup_page_path, signin_page_name, email_template):
+def signup(request, signup_page_path, signin_page_name, email_template, group_name=None):
     context = {}
     if request.method == "POST":
         username = request.POST['username']
@@ -70,6 +70,11 @@ def signup(request, signup_page_path, signin_page_name, email_template):
             email.fail_silently = True
             email.send()
 
+            # Get the username from the form
+            # Get the group by name
+            group = Group.objects.get(name=group_name)
+            # Add the user to the group
+            myuser.groups.add(group)
             return redirect(signin_page_name)
 
     return render(request, signup_page_path, context)
