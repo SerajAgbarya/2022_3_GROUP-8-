@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 
+from .scholarship.scholarship_crud import submit_scholarship_reqeust, get_scholarship_reqeust
 from .signIn.signIn import signin
 from .signIn.signUp import signup
 from .tokens import generate_token
@@ -15,7 +16,7 @@ def main(request):
 
 
 def student_signin(request):
-    return signin(request, "student/student-signin.html", "student/home-student.html" ,"student")
+    return signin(request, "student/student-signin.html", "student/home/", "student")
 
 
 def manager_signin(request):
@@ -23,7 +24,7 @@ def manager_signin(request):
 
 
 def worker_signin(request):
-    return signin(request, "worker/worker-signin.html", "worker/home-worker.html","worker")
+    return signin(request, "worker/worker-signin.html", "worker/home-worker.html", "worker")
 
 
 def student_signup(request):
@@ -68,3 +69,27 @@ def activate_worker(request, uidb64, token):
         return redirect('worker_signin')
     else:
         return render(request, 'activation_failed.html')
+
+
+def submit_scholarship(request):
+    return submit_scholarship_reqeust(request)
+
+
+def scholarship_form(request):
+    degree_year_choices = [(i, str(i)) for i in range(1, 5)]
+    financial_situation_choices = [('bad', 'Bad'), ('mid', 'Mid'), ('good', 'Good')]
+    yes_no_choices = [('yes', 'Yes'), ('no', 'No')]
+    return render(request, 'student/scholarship-form.html', {
+        'DEGREE_YEAR_CHOICES': degree_year_choices,
+        'FINANCIAL_SITUATION_CHOICES': financial_situation_choices,
+        'YES_NO_CHOICES': yes_no_choices,
+    })
+
+
+def scholarship_view(request):
+    return get_scholarship_reqeust(request)
+
+
+def student_home_page(request):
+    student_name = request.user.first_name.capitalize()
+    return render(request, 'student/home-student.html', {'student_name': student_name})

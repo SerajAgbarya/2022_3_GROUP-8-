@@ -10,5 +10,9 @@ urlpatterns = [
     path('student-signin', views.student_signin, name='student_signin'),
     path('worker-signup', views.worker_signup, name='worker_signup'),
     path('worker-signin', views.worker_signin, name='worker_signin'),
+    path('scholarship/submit/', views.submit_scholarship, name='submit_scholarship'),
+    path('scholarship/', views.scholarship_form, name='scholarship_form'),
+    path('scholarship/view/', views.scholarship_view, name='scholarship_view'),
+    path('student/home/', views.student_home_page, name='student_home_page'),
 
 ]
