@@ -1,34 +1,45 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>View Scholarship Request</title>
     <style>
-        /* Add your CSS styles here */
-        body {
-            font-family: Arial, sans-serif;
-        }
-
+        /* Style the container */
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            width: 500px;
+            margin: 100px auto;
+            text-align: center;
+            font-family: sans-serif;
         }
 
+        /* Style the heading */
+        .container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Style the paragraphs */
+        .container p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        /* Style the button */
         .button {
             display: inline-block;
-            background-color: blue;
-            color: white;
             padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 4px;
         }
 
         .button:hover {
-            background-color: lightblue;
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
-<div className="container">
+<div class="container">
     <h1>View Scholarship Request</h1>
     <p>Degree year: {{ request.degree_year }}</p>
     <p>Age: {{ request.age }}</p>
@@ -37,7 +48,7 @@
     <p>Special needs: {{ request.special_needs }}</p>
     <p>Tenant: {{ request.tenant }}</p>
     <p>Volunteer: {{ request.volunteer }}</p>
-    <a className="button" href="/scholarship/edit/">Edit</a>
+    <a class="button" href="/scholarship/edit/">Edit</a>
 </div>
 </body>
 </html>

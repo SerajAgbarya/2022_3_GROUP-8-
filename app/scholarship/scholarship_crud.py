@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 
 from app.models import ScholarshipRequest
@@ -9,7 +10,7 @@ def submit_scholarship_reqeust(request):
         form_data = request.POST
 
         # Create a new scholarship request object
-        request = ScholarshipRequest(
+        scholar_ship_request = ScholarshipRequest(
             degree_year=form_data['degree_year'],
             age=form_data['age'],
             financial_situation=form_data['financial_situation'],
@@ -18,9 +19,10 @@ def submit_scholarship_reqeust(request):
             tenant=form_data['tenant'],
             volunteer=form_data['volunteer']
         )
-        request.user_id = current_user
-        request.save()
-        return redirect('student/home/')
+        scholar_ship_request.user_id = current_user
+        scholar_ship_request.save()
+        messages.success(request, 'Your request has been received successfully')
+        return redirect('../../student/home/')
     else:
         return render(request, 'home-student.html')
 
