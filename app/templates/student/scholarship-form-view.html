@@ -1,17 +1,19 @@
 <html>
 <head>
-    <title>Student Home</title>
+    <title>View Scholarship Request</title>
     <style>
         /* Add your CSS styles here */
         body {
             font-family: Arial, sans-serif;
         }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
-        .link {
+
+        .button {
             display: inline-block;
             background-color: blue;
             color: white;
@@ -19,19 +21,23 @@
             text-decoration: none;
             border-radius: 5px;
         }
-        .link:hover {
+
+        .button:hover {
             background-color: lightblue;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Welcome, {{ student_name }}!</h1>
-    <p>Here are some quick links:</p>
-    <ul>
-        <li><a class="link" href="/scholarship/">Request Scholarship</a></li>
-        <li><a class="link" href="/scholarship/view/">View Request Scholarship</a></li>
-    </ul>
+<div className="container">
+    <h1>View Scholarship Request</h1>
+    <p>Degree year: {{ request.degree_year }}</p>
+    <p>Age: {{ request.age }}</p>
+    <p>Financial situation: {{ request.financial_situation }}</p>
+    <p>Parent work: {{ request.parent_work }}</p>
+    <p>Special needs: {{ request.special_needs }}</p>
+    <p>Tenant: {{ request.tenant }}</p>
+    <p>Volunteer: {{ request.volunteer }}</p>
+    <a className="button" href="/scholarship/edit/">Edit</a>
 </div>
 </body>
 </html>

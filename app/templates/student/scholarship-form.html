@@ -1,0 +1,162 @@
+<style>
+    /* Style for error messages */
+    .error {
+        color: red;
+    }
+</style>
+
+<form id="scholarship-form" method="post" action="/scholarship/submit/">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="degree-year">Degree Year</label>
+        <select class="form-control" id="degree-year" name="degree_year" required>
+            <option value="" disabled selected>Select your degree year</option>
+            {% for year in DEGREE_YEAR_CHOICES %}
+            <option value="{{ year.0 }}">{{ year.1 }}</option>
+            {% endfor %}
+        </select>
+        <div id="degree-year-error" class="error"></div>
+    </div>
+    <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" class="form-control" id="age" name="age" min="18" max="100" required>
+        <div id="age-error" class="error"></div>
+    </div>
+    <div class="form-group">
+        <label for="financial-situation">Financial Situation</label>
+        <select class="form-control" id="financial-situation" name="financial_situation" required>
+            <option value="" disabled selected>Select your financial situation</option>
+            {% for situation in FINANCIAL_SITUATION_CHOICES %}
+            <option value="{{ situation.0 }}">{{ situation.1 }}</option>
+            {% endfor %}
+        </select>
+        <div id="financial-situation-error" class="error"></div>
+    </div>
+    <div class="form-group">
+        <label for="parent-work">Do your parents work?</label>
+        <select class="form-control" id="parent-work" name="parent_work" required>
+            <option value="" disabled selected>Select yes or no</option>
+            {% for choice in YES_NO_CHOICES %}
+            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endfor %}
+        </select>
+        <div id="parent-work-error" class="error"></div>
+    </div>
+    <div class="form-group">
+        <label for="special-needs">Do you have special needs?</label>
+        <select class="form-control" id="special-needs" name="special_needs" required>
+            <option value="" disabled selected>Select yes or no</option>
+            {% for choice in YES_NO_CHOICES %}
+            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endfor %}
+        </select>
+        <div id="special-needs-error" class="error"></div>
+    </div>
+    <div class="form-group">
+        <label for="tenant">Are you a tenant?</label>
+        <select class="form-control" id="tenant" name="tenant" required>
+            <option value="" disabled selected>Select yes or no</option>
+            {% for choice in YES_NO_CHOICES %}
+            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endfor %}
+        </select>
+        <div id="tenant-error" class="error"></div>
+    </div>
+    <div class="form-group">
+        <label for="volunteer">Have you volunteered before?</label>
+        <select class="form-control" id="volunteer" name="volunteer" required>
+            <option value="" disabled selected>Select yes or no</option>
+            {% for choice in YES_NO_CHOICES %}
+            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endfor %}
+        </select>
+        <div id="volunteer-error" class="error"></div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Request</button>
+</form>
+
+<script>
+    // Form validation
+    const form = document.getElementById('scholarship-form');
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        let isValid = true;
+
+        // Validate degree year
+        const degreeYear = document.getElementById('degree-year');
+        const degreeYearError = document.getElementById('degree-year-error');
+        if (degreeYear.value === "") {
+            degreeYearError.textContent = "Please select your degree year";
+            isValid = false;
+        } else {
+            degreeYearError.textContent = "";
+        }
+
+        // Validate age
+        const age = document.getElementById('age');
+        const ageError = document.getElementById('age-error');
+        if (age.value === "") {
+            ageError.textContent = "Please enter your age";
+            isValid = false;
+        } else {
+            ageError.textContent = "";
+        }
+
+        // Validate financial situation
+        const financialSituation = document.getElementById('financial-situation');
+        const financialSituationError = document.getElementById('financial-situation-error');
+        if (financialSituation.value === "") {
+            financialSituationError.textContent = "Please select your financial situation";
+            isValid = false;
+        } else {
+            financialSituationError.textContent = "";
+        }
+
+        // Validate parent work
+        const parentWork = document.getElementById('parent-work');
+        const parentWorkError = document.getElementById('parent-work-error');
+        if (parentWork.value === "") {
+            parentWorkError.textContent = "Please select yes or no";
+            isValid = false;
+        } else {
+            parentWorkError.textContent = "";
+        }
+
+        // Validate special needs
+        const specialNeeds = document.getElementById('special-needs');
+        const specialNeedsError = document.getElementById('special-needs-error');
+        if (specialNeeds.value === "") {
+            specialNeedsError.textContent = "Please select yes or no";
+            isValid = false;
+        } else {
+            specialNeedsError.textContent = "";
+        }
+
+        // Validate tenant
+        const tenant = document.getElementById('tenant');
+        const tenantError = document.getElementById('tenant-error');
+        if (tenant.value === "") {
+            tenantError.textContent = "Please select yes or no";
+            isValid = false;
+        } else {
+            tenantError.textContent = "";
+        }
+
+        // Validate volunteer
+        const volunteer = document.getElementById('volunteer');
+        const volunteerError = document.getElementById('volunteer-error');
+        if (volunteer.value === "") {
+            volunteerError.textContent = "Please select yes or no";
+            isValid = false;
+        } else {
+            volunteerError.textContent = "";
+        }
+
+        // If the form is valid, submit it
+        if (isValid) {
+            form.submit();
+        }
+    });
+</script>
+
+
