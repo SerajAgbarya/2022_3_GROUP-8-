@@ -93,3 +93,19 @@ def scholarship_view(request):
 def student_home_page(request):
     student_name = request.user.first_name.capitalize()
     return render(request, 'student/home-student.html', {'student_name': student_name})
+
+
+def student_volunteer(request):
+    # TO DO after completeing tasks page
+    degree_year_choices = [(i, str(i)) for i in range(1, 5)]
+    financial_situation_choices = [('bad', 'Bad'), ('mid', 'Mid'), ('good', 'Good')]
+    yes_no_choices = [('yes', 'Yes'), ('no', 'No')]
+    return render(request, 'student/scholarship-form.html', {
+        'DEGREE_YEAR_CHOICES': degree_year_choices,
+        'FINANCIAL_SITUATION_CHOICES': financial_situation_choices,
+        'YES_NO_CHOICES': yes_no_choices,
+    })
+
+
+def student_task(request):
+    return get_scholarship_reqeust(request)

@@ -15,3 +15,25 @@ class ScholarshipRequest(models.Model):
     special_needs = models.CharField(max_length=3, choices=YES_NO_CHOICES)
     tenant = models.CharField(max_length=3, choices=YES_NO_CHOICES)
     volunteer = models.CharField(max_length=3, choices=YES_NO_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Task(models.Model):
+    TO_DO = 'TO_DO'
+    IN_PROGRESS = 'IN_PROGRESS'
+    COMPLETED = 'COMPLETED'
+    STATUS_CHOICES = [
+        (TO_DO, 'To Do'),
+        (IN_PROGRESS, 'In Progress'),
+        (COMPLETED, 'Completed'),
+    ]
+
+    user_id = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='tasks_created', primary_key=True)
+    worker_id = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='tasks_assigned')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=TO_DO)
+    place = models.CharField(max_length=50)
+    total_hours = models.PositiveIntegerField()
+    completed_hours = models.PositiveIntegerField()
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
