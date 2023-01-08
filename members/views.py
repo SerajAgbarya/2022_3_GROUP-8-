@@ -1,21 +1,21 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect
-from django.template import loader
-from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.template import loader
+
 from cdfi import settings
-from django.core.mail import EmailMessage, send_mail
-from django.contrib.auth.decorators import login_required
-from . import forms, models
 
 
 @login_required
 def index(request):
     template = loader.get_template('first.html')
     return render(request, 'first.html')
+
 
 def login_user(request):
     if request.method == "POST":
@@ -36,10 +36,12 @@ def login_user(request):
         template = loader.get_template('login.html')
         return HttpResponse(template.render({}, request))
 
+
 @login_required
 def logout_user(request):
     logout(request)
     return redirect('login_user')
+
 
 @login_required
 def worker_list(request):
@@ -121,6 +123,7 @@ def delete_worker(request):
     context = {'users': active}
     return render(request, 'delete_worker.html', context)
 
+
 def logout_worker(request):
     logout(request)
     messages.success(request, ("You , Were logged out...  "))
@@ -146,4 +149,3 @@ def worker_login(request):
     else:
         template = loader.get_template('login.html')
         return HttpResponse(template.render({}, request))
-
