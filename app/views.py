@@ -55,7 +55,7 @@ def worker_signup(request):
             worker = worker.save()
             my_worker_group = Group.objects.get_or_create(name='WORKER')
             my_worker_group[0].user_set.add(user)
-        return HttpResponseRedirect('login_user')
+        return redirect('home')
     return render(request, 'workersignup.html', context=mydict)
 
 def activate(request, uidb64, token):
