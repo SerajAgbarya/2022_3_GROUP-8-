@@ -1,0 +1,107 @@
+<html>
+<head>
+    <style>
+        /* Add your CSS styles here */
+        .volunteer-hours-list {
+            display: flex;
+            flex-direction: column;
+        }
+        .volunteer-hours-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .volunteer-hours-item + .volunteer-hours-item {
+            border-top: 1px solid #ccc;
+            padding-top: 16px;
+        }
+        .volunteer-hours-item__date {
+            flex: 0 0 120px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .volunteer-hours-item__hours {
+            flex: 0 0 80px;
+            font-size: 14px;
+        }
+        .create-button {
+            /* Add your styles for the create button here */
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+        }
+        /* Add styles for the pop-up form */
+        .form-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9;
+            border: 1px solid #ccc;
+            padding: 16px;
+            background-color: white;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-container > * {
+            margin-bottom: 16px;
+        }
+        .form-container label {
+            font-weight: bold;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+        .form-container input[type="submit"] {
+            /* Add your styles for the submit button here */
+        }
+        .form-container input[type="button"] {
+            /* Add your styles for the cancel button here */
+        }
+    </style>
+</head>
+<body>
+<!-- Add your HTML code here -->
+<div class="volunteer-hours-list">
+    {% for hours in volunteer_hours_list %}
+    <div class="volunteer-hours-item">
+        <div class="volunteer-hours-item__date">{{ hours.date }}</div>
+        <div class="volunteer-hours-item__hours">{{ hours.hours }}</div>
+    </div>
+    {% endfor %}
+</div>
+<button class="create-button">Create</button>
+<!-- Add the pop-up form -->
+<div class="form-popup">
+    <form class="form-container">
+        <label for="date">Date:</label>
+        <input type="date" id="date" placeholder="Enter date">
+        <label for="hours">Hours:</label>
+        <input type="number" id="hours" placeholder="Enter hours">
+        <input type="submit" value="Submit">
+        <input type="button" value="Cancel" onclick="closeForm()">
+    </form>
+</div>
+<!-- Add JavaScript to show and close the form pop-up -->
+<script>
+    // Get the create button and form pop-up
+    const createBtn = document.querySelector(".create-button");
+    const formPopup = document.querySelector(".form-popup");
+
+    // When the create button is clicked, show the form pop-up
+    createBtn.addEventListener("click", function() {
+        formPopup.style.display = "block";
+    });
+
+    // When the close button is clicked, close the form pop-up
+    function closeForm() {
+        formPopup.style.display = "none";
+    }
+</script>
+</body>
+</html>

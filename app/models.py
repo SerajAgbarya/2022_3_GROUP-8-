@@ -41,3 +41,10 @@ class Task(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class VolunteerHours(models.Model):
+    id = models.AutoField(primary_key=True)
+    user_id = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='hours_added')
+    task_id = models.ForeignKey('app.Task', on_delete=models.CASCADE, related_name='task_in_progress')
+    date = models.DateField()
+    hours = models.IntegerField()

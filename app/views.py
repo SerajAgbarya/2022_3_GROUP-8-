@@ -8,7 +8,7 @@ from django.utils.http import urlsafe_base64_decode
 
 from members import forms
 from . import constants
-from .models import Task
+from .models import Task, VolunteerHours
 from .scholarship.scholarship_crud import submit_scholarship_reqeust, get_scholarship_reqeust
 from .signIn.signIn import signin
 from .signIn.signUp import signup
@@ -123,6 +123,13 @@ def student_task_page(request):
     tasks = Task.objects.filter(user_id=user.id)
     context = {'tasks': tasks}
     return render(request, 'student/student_task.html', context)
+
+def student_volunteer_page(request):
+    user = request.user
+    print(user)
+    hours = VolunteerHours.objects.filter(user_id=user.id)
+    context = {'volunteer_hours_list': hours}
+    return render(request, 'student/student_volunteer.html', context)
 
 
 def x():
