@@ -93,3 +93,7 @@ def scholarship_view(request):
 def student_home_page(request):
     student_name = request.user.first_name.capitalize()
     return render(request, 'student/home-student.html', {'student_name': student_name})
+
+
+def x():
+    return 
