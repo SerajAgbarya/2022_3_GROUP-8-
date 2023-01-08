@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
+from . import forms, models
+
 
 
 def index(request):
@@ -35,3 +37,31 @@ def logout_user(request):
     logout(request)
     messages.success(request, ("You , Were logged out...  "))
     return redirect('login_user')
+
+
+def logout_worker(request):
+    logout(request)
+    messages.success(request, ("You , Were logged out...  "))
+    return redirect('worker_login')
+
+
+def worker_login(request):
+    print("dfsdfsdf")
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, ("Login success  "))
+            # Redirect to a success page.
+            return render(request, 'home-worker.html')
+
+        else:
+            # Return an 'invalid login' error message. stay on the same page
+            messages.success(request, ("There was An Error Logging In , try Again...  "))
+            return render(request, 'login.html')
+    else:
+        template = loader.get_template('login.html')
+        return HttpResponse(template.render({}, request))
+

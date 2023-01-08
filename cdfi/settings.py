@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'app',
     'members',
+    'widget_tweaks',
 ]
 
 SITE_ID = 1
