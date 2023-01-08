@@ -48,6 +48,7 @@ def worker_signup(request):
         if user_form.is_valid() and worker_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
+            user.is_active = False
             user.save()
             worker = worker_form.save(commit=False)
             worker.user = user
