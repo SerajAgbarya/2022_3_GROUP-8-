@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template import loader
-
+from .models import Worker
 from cdfi import settings
 
 
@@ -99,29 +99,70 @@ def transfer_to_worker(request):
 
 
 def delete_worker(request):
-    all_users = User.objects.all()
+    all_workers = Worker.objects.all()
     workers = []
     active = []
     group = Group.objects.get(name='WORKER')
-    for user in all_users:
-        if group in user.groups.all():
-            workers.append(user)
+    for worker in all_workers:
+        workers.append(worker)
     for worker in workers:
-        if worker.is_active == True:
+        if worker.user.is_active == True:
             active.append(worker)
+    # all_users = User.objects.all()
+    # workers = []
+    # active = []
+    # group = Group.objects.get(name='WORKER')
+    # for user in all_users:
+    #     if group in user.groups.all():
+    #         workers.append(user)
+    # for worker in workers:
+    #     if worker.is_active == True:
+    #         active.append(worker)
 
     if request.method == 'POST':
         action = request.POST['action']
         user_id = request.POST['user_id']
         user = User.objects.get(pk=user_id)
+        for worker in Worker.objects.all():
+            if worker.user.pk == user_id:
+                worker.delete()
         if action == 'delete':
             user.delete()
+
             messages.success(request, (f"{user.username} has been deleted"))
 
         return HttpResponseRedirect(request.path_info)
 
-    context = {'users': active}
+    context = {'workers': active}
     return render(request, 'delete_worker.html', context)
+
+
+def worker_details(request):
+    all_workers = Worker.objects.all()
+    workers = []
+    active = []
+    group = Group.objects.get(name='WORKER')
+    for worker in all_workers:
+        workers.append(worker)
+    for worker in workers:
+        if worker.user.is_active == True:
+            active.append(worker)
+    context = {'workers': active}
+    return render(request, 'worker_details.html', context)
+
+
+def money_request(request):
+    manager_user = request.user
+    email = manager_user.email
+    subject = "According for money request !!!"
+    message = "Hello  !! \n" + "the request was accepted ! "
+    from_email = settings.EMAIL_HOST_USER
+    to_list = [email]
+    send_mail(subject, message, from_email, to_list, fail_silently=True)
+    messages.success(request, (f"the request was sent at the e_mail...please check your email"))
+    return render(request, 'first.html')
+
+    return HttpResponseRedirect(request, request.path_info)
 
 
 def logout_worker(request):

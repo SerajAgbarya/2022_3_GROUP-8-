@@ -12,6 +12,8 @@ urlpatterns = [
     path('worker_list', views.worker_list, name='Worker_list'),
     path('transfer_to_worker', views.transfer_to_worker, name='transfer_to_worker'),
     path('delete_worker', views.delete_worker, name='delete_worker'),
+    path('worker_details', views.worker_details, name='worker_details'),
+    path('money_request', views.money_request, name='money_request'),
 
 
 ]
