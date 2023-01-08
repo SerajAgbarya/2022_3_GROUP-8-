@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from members import views as v1
 
 urlpatterns = [
     path('', views.main, name='home'),
@@ -14,5 +15,6 @@ urlpatterns = [
     path('scholarship/', views.scholarship_form, name='scholarship_form'),
     path('scholarship/view/', views.scholarship_view, name='scholarship_view'),
     path('student/home/', views.student_home_page, name='student_home_page'),
+    path('login_user', v1.login_user, name='login_user'),
 
 ]

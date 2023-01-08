@@ -9,6 +9,13 @@ from .scholarship.scholarship_crud import submit_scholarship_reqeust, get_schola
 from .signIn.signIn import signin
 from .signIn.signUp import signup
 from .tokens import generate_token
+from members import forms, models
+from django.http import HttpResponseRedirect
+from members import urls
+from django.contrib.auth.models import Group
+
+
+
 
 
 def main(request):
@@ -32,8 +39,23 @@ def student_signup(request):
 
 
 def worker_signup(request):
-    return signup(request, "worker/signup.html", "worker_signin", "worker/email_confirmation.html", "worker")
-
+    user_form = forms.WorkerUserForm
+    worker_form = forms.WorkerForm()
+    mydict = {'userForm': user_form, 'workerForm': worker_form}
+    if request.method == 'POST':
+        user_form = forms.WorkerUserForm(request.POST)
+        worker_form = forms.WorkerForm(request.POST, request.FILES)
+        if user_form.is_valid() and worker_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            worker = worker_form.save(commit=False)
+            worker.user = user
+            worker = worker.save()
+            my_worker_group = Group.objects.get_or_create(name='WORKER')
+            my_worker_group[0].user_set.add(user)
+        return HttpResponseRedirect('login_user')
+    return render(request, 'workersignup.html', context=mydict)
 
 def activate(request, uidb64, token):
     try:
