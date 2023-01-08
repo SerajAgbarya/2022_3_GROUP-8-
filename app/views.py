@@ -5,9 +5,17 @@ from django.shortcuts import render, redirect
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 
+from .scholarship.scholarship_crud import submit_scholarship_reqeust, get_scholarship_reqeust
 from .signIn.signIn import signin
 from .signIn.signUp import signup
 from .tokens import generate_token
+from members import forms, models
+from django.http import HttpResponseRedirect
+from members import urls
+from django.contrib.auth.models import Group
+
+
+
 
 
 def main(request):
@@ -15,24 +23,39 @@ def main(request):
 
 
 def student_signin(request):
-    return signin(request, "student/student-signin.html", "student/home-student.html")
+    return signin(request, "student/student-signin.html", "student/home/", "student")
 
 
 def manager_signin(request):
-    return signin(request, "manager-signin.html", "home-manager.html")
+    return signin(request, "manager-signin.html", "home-manager.html", "manager")
 
 
 def worker_signin(request):
-    return signin(request, "worker/worker-signin.html", "worker/home-worker.html")
+    return signin(request, "worker/worker-signin.html", "worker/home-worker.html", "worker")
 
 
 def student_signup(request):
-    return signup(request, "student/signup.html", "student_signin", "student/email_confirmation.html")
+    return signup(request, "student/signup.html", "student_signin", "student/email_confirmation.html", "student")
 
 
 def worker_signup(request):
-    return signup(request, "worker/signup.html", "worker_signin", "worker/email_confirmation.html")
-
+    user_form = forms.WorkerUserForm
+    worker_form = forms.WorkerForm()
+    mydict = {'userForm': user_form, 'workerForm': worker_form}
+    if request.method == 'POST':
+        user_form = forms.WorkerUserForm(request.POST)
+        worker_form = forms.WorkerForm(request.POST, request.FILES)
+        if user_form.is_valid() and worker_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            worker = worker_form.save(commit=False)
+            worker.user = user
+            worker = worker.save()
+            my_worker_group = Group.objects.get_or_create(name='WORKER')
+            my_worker_group[0].user_set.add(user)
+        return HttpResponseRedirect('login_user')
+    return render(request, 'workersignup.html', context=mydict)
 
 def activate(request, uidb64, token):
     try:
@@ -68,3 +91,31 @@ def activate_worker(request, uidb64, token):
         return redirect('worker_signin')
     else:
         return render(request, 'activation_failed.html')
+
+
+def submit_scholarship(request):
+    return submit_scholarship_reqeust(request)
+
+
+def scholarship_form(request):
+    degree_year_choices = [(i, str(i)) for i in range(1, 5)]
+    financial_situation_choices = [('bad', 'Bad'), ('mid', 'Mid'), ('good', 'Good')]
+    yes_no_choices = [('yes', 'Yes'), ('no', 'No')]
+    return render(request, 'student/scholarship-form.html', {
+        'DEGREE_YEAR_CHOICES': degree_year_choices,
+        'FINANCIAL_SITUATION_CHOICES': financial_situation_choices,
+        'YES_NO_CHOICES': yes_no_choices,
+    })
+
+
+def scholarship_view(request):
+    return get_scholarship_reqeust(request)
+
+
+def student_home_page(request):
+    student_name = request.user.first_name.capitalize()
+    return render(request, 'student/home-student.html', {'student_name': student_name})
+
+
+def x():
+    return 

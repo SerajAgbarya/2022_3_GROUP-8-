@@ -1,1 +1,69 @@
-<h1>Hello Dare Student</h1>
+
+<html>
+<head>
+    <title>Student Home</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .link {
+            display: inline-block;
+            background-color: blue;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .link:hover {
+            background-color: lightblue;
+        }
+        /* Add your CSS styles here */
+        .messages {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .messages li {
+            background-color: #ffffcc;
+            border: 1px solid #cccccc;
+            margin: 10px 0;
+            padding: 10px;
+        }
+
+        .messages .success {
+            background-color: #ccffcc;
+            border-color: #00cc00;
+        }
+
+        .messages .error {
+            background-color: #ffcccc;
+            border-color: #cc0000;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <h1>Welcome, {{ student_name }}!</h1>
+    <p>Here are some quick links:</p>
+    <ul>
+        <li><a class="link" href="/scholarship/">Request Scholarship</a></li>
+        <li><a class="link" href="/scholarship/view/">View Scholarship Request</a></li>
+    </ul>
+</div>
+</body>
+</html>

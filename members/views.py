@@ -9,6 +9,8 @@ from django.contrib.auth.models import User
 from cdfi import settings
 from django.core.mail import EmailMessage, send_mail
 from django.contrib.auth.decorators import login_required
+from . import forms, models
+
 
 @login_required
 def index(request):
@@ -118,3 +120,30 @@ def delete_worker(request):
 
     context = {'users': active}
     return render(request, 'delete_worker.html', context)
+
+def logout_worker(request):
+    logout(request)
+    messages.success(request, ("You , Were logged out...  "))
+    return redirect('worker_login')
+
+
+def worker_login(request):
+    print("dfsdfsdf")
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, ("Login success  "))
+            # Redirect to a success page.
+            return render(request, 'home-worker.html')
+
+        else:
+            # Return an 'invalid login' error message. stay on the same page
+            messages.success(request, ("There was An Error Logging In , try Again...  "))
+            return render(request, 'login.html')
+    else:
+        template = loader.get_template('login.html')
+        return HttpResponse(template.render({}, request))
+
