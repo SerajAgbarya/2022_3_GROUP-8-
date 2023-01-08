@@ -14,6 +14,9 @@ urlpatterns = [
     path('delete_worker', views.delete_worker, name='delete_worker'),
     path('worker_details', views.worker_details, name='worker_details'),
     path('money_request', views.money_request, name='money_request'),
-
+    path('admin_view_student',views.admin_view_student, name='admin_view_student'),
+    path('delete_student',views.delete_student, name='delete_student'),
+    path('work_hours_list', views.work_hours_list, name='work_hours_list'),
+    path('add_work_hours', views.add_work_hours, name='add_work_hours'),
 
 ]

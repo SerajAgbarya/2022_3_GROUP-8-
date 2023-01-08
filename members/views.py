@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect
 from django.template import loader
 from .models import Worker
 from cdfi import settings
+from app import models
 
 
 @login_required
@@ -189,3 +190,37 @@ def worker_login(request):
     else:
         template = loader.get_template('login.html')
         return HttpResponse(template.render({}, request))
+
+
+def admin_view_student(request):
+    """admin show all student """
+    ScholarshipRequest = models.ScholarshipRequest.objects.all()
+    return render(request, 'admin_view_student.html', {'ScholarshipRequest': ScholarshipRequest})
+
+
+def delete_student(request):
+    ScholarshipRequest = models.ScholarshipRequest.objects.all()
+    group = Group.objects.get(name='ScholarshipRequest')
+    if request.method == 'POST':
+        user_id = request.POST['user_id']
+        ScholarshipRequest = User.objects.get(pk=user_id)
+        if action == 'delete':
+            ScholarshipRequest.delete()
+            messages.success(request, (f"{ScholarshipRequest.username} has been deleted"))
+
+        return HttpResponseRedirect(request.path_info)
+    return render(request, 'delete_student.html', {'ScholarshipRequest': ScholarshipRequest})
+
+
+def work_hours_list(request):
+    work_hours = WorkHour.objects.filter(user=request.user)
+    return render(request, 'work_hours_list.html', {'work_hours': work_hours})
+
+
+def add_work_hours(request):
+    ScholarshipRequest = models.ScholarshipRequest.objects.all()
+    start_time = request.POST['start_time']
+    end_time = request.POST['end_time']
+    work_hour = WorkHour(user=user, start_time=start_time, end_time=end_time)
+    work_hour.save()
+    return redirect('work_hours_list')

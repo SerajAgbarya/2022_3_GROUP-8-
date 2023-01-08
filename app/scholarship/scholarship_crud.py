@@ -22,14 +22,18 @@ def submit_scholarship_reqeust(request):
         scholar_ship_request.user_id = current_user
         scholar_ship_request.save()
         messages.success(request, 'Your request has been received successfully')
-        return redirect('../../student/home/')
+        return redirect('../../student/')
     else:
-        return render(request, 'home-student.html')
+        return get_scholarship_reqeust(request)
 
 
 def get_scholarship_reqeust(request):
     current_user = request.user
+    print('hi')
     requests = ScholarshipRequest.objects.filter(user_id=current_user)
+    print('hi2')
     if len(requests) > 0:
         return render(request, 'student/scholarship-form-view.html', {'request': requests[0]})
+    else:
+        return render(request, 'student/scholarship-form-view.html', {'request': None})
     #TODO add info message that there is no opne requests . or att all we should not reach this form if no request eists
