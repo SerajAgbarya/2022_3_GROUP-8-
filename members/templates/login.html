@@ -1,72 +1,32 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
-
-<head>
-    <title>Login</title>
-    <style>
-            body {
-                font-family: sans-serif;
-            }
-            .container {
-                max-width: 600px;
-                margin: 0 auto;
-                padding: 20px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-            }
-            h1 {
-                margin-bottom: 20px;
-            }
-            input[type="text"], input[type="password"] {
-                width: 100%;
-                padding: 12px 20px;
-                margin: 8px 0;
-                box-sizing: border-box;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-            }
-            input[type="submit"] {
-                width: 100%;
-                background-color: #4CAF50;
-                color: white;
-                padding: 14px 20px;
-                margin: 8px 0;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-            input[type="submit"]:hover {
-                background-color: #45a049;
-            }
-
-
-
-    </style>
-</head>
+<link rel="stylesheet" href="{% static 'style.css' %}"/>
+<link rel="stylesheet" href="{% static 'button.css' %}"/>
 <body>
-<br> <br><br><br> <br><br>
-
-{% if messages %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-    {% for message in messages %}
-    {{message}}
-    {% endfor %}
-</div>
-{% endif %}
-<h1>Login</h1>
-<form method="post" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="text" name="username" placeholder="username">
-    <input type="password" name="password" placeholder="Password">
-
-    <input type="submit" value="Login">
-</form>
+<div class="card-outer">
+    <div class="card">
+        <img
+                src="https://www.w3schools.com/howto/img_avatar.png"
+                alt="Avatar"
+                style="width: 100%"
+        />
+        <form action="" method="post" class="container">
+            {% csrf_token %}
+            <h4><b>Manager sign in page</b></h4>
+            <h6 style="color:red"> {% if login_error %}<span>{{ login_error }}</span>{% endif %}</h6>
+            <p>
+                <input required id="username" name="username" class="textbox" type="text" placeholder="Enter username"/>
+            </p>
+            <p>
+                <input required id="password" name="password" class="textbox" type="password"
+                       placeholder="Enter password"/>
+            </p>
+            <p>
+                <input type="submit" class="btn log" value="Sign in"/>
+            </p>
+        </form>
+    </div>
 </div>
 </body>
 </html>
