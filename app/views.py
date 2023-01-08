@@ -1,21 +1,18 @@
 from django.contrib import messages
 from django.contrib.auth import login
+from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 
+from members import forms
+from . import constants
+from .models import Task
 from .scholarship.scholarship_crud import submit_scholarship_reqeust, get_scholarship_reqeust
 from .signIn.signIn import signin
 from .signIn.signUp import signup
 from .tokens import generate_token
-from members import forms, models
-from django.http import HttpResponseRedirect
-from members import urls
-from django.contrib.auth.models import Group
-
-
-
 
 
 def main(request):
@@ -23,19 +20,20 @@ def main(request):
 
 
 def student_signin(request):
-    return signin(request, "student/student-signin.html", "student/home/", "student")
+    return signin(request, "student/student-signin.html", "student/", constants.STUDENT)
 
 
 def manager_signin(request):
-    return signin(request, "manager-signin.html", "home-manager.html", "manager")
+    return signin(request, "manager-signin.html", "home-manager.html", constants.MANAGER)
 
 
 def worker_signin(request):
-    return signin(request, "worker/worker-signin.html", "worker/home-worker.html", "worker")
+    return signin(request, "worker/worker-signin.html", "worker/home-worker.html", constants.WORKER)
 
 
 def student_signup(request):
-    return signup(request, "student/signup.html", "student_signin", "student/email_confirmation.html", "student")
+    return signup(request, "student/signup.html", "student_signin", "student/email_confirmation.html",
+                  constants.STUDENT)
 
 
 def worker_signup(request):
@@ -53,10 +51,11 @@ def worker_signup(request):
             worker = worker_form.save(commit=False)
             worker.user = user
             worker = worker.save()
-            my_worker_group = Group.objects.get_or_create(name='WORKER')
+            my_worker_group = Group.objects.get(constants.WORKER)
             my_worker_group[0].user_set.add(user)
         return redirect('home')
     return render(request, 'workersignup.html', context=mydict)
+
 
 def activate(request, uidb64, token):
     try:
@@ -118,3 +117,13 @@ def student_home_page(request):
     return render(request, 'student/home-student.html', {'student_name': student_name})
 
 
+
+def student_task_page(request):
+    user = request.user
+    tasks = Task.objects.filter(user_id=user.id)
+    context = {'tasks': tasks}
+    return render(request, 'student/student_task.html', context)
+
+
+def x():
+    return

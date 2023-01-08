@@ -1,5 +1,7 @@
 from django.contrib.auth.models import Group
 
+from app import constants
+
 
 def create_group_if_not_exists(group_name):
     # Check if a group with the given name already exists
@@ -13,6 +15,6 @@ def create_group_if_not_exists(group_name):
 
 
 # Use the function to create a group
-create_group_if_not_exists('student')
-create_group_if_not_exists('worker')
-create_group_if_not_exists('manager')
+create_group_if_not_exists(constants.STUDENT)
+create_group_if_not_exists(constants.WORKER)
+create_group_if_not_exists(constants.MANAGER)
