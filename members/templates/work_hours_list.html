@@ -1,0 +1,20 @@
+<!-- templates/work_hours_list.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Work Hours</h1>
+
+    <table>
+        <tr>
+            <th>Start Time</th>
+            <th>End Time</th>
+        </tr>
+        {% for work_hour in work_hours %}
+            <tr>
+                <td>{{ work_hour.start_time }}</td>
+                <td>{{ work_hour.end_time }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

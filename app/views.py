@@ -117,6 +117,7 @@ def student_home_page(request):
     return render(request, 'student/home-student.html', {'student_name': student_name})
 
 
+
 def student_task_page(request):
     user = request.user
     tasks = Task.objects.filter(user_id=user.id)

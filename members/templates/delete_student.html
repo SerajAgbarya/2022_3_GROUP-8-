@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-dark table-striped">
+  <tr>
+    <th>user_id</th>
+     <th>degree_year</th>
+    <th>age</th>
+    <th>financial_situation </th>
+    <th>parent_work</th>
+      <th>special_needs</th>
+      <th>tenant</th>
+
+
+  </tr>
+  {% for user in users %}
+  <tr>
+  <td> {{user.user_id}}</td>
+        <td>{{user.degree_year}}</td>
+        <td>{{user.age }}</td>
+        <td>{{user.financial_situation}}</td>
+        <td>{{user.parent_work}}</td>
+        <td>{{user.special_needs}}</td>
+        <td>{{user.tenant}}</td>
+    <td>
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{ user.id }}">
+        <button type="submit" name="action" value="delete">Delete student</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
