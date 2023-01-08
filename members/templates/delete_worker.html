@@ -9,16 +9,16 @@
     <th>Email </th>
     <th>Actions</th>
   </tr>
-  {% for user in users %}
+  {% for worker in workers %}
   <tr>
-    <td>{{ user.username }}</td>
-    <td>{{ user.first_name }}</td>
-    <td>{{ user.last_name }}</td>
-    <td>{{ user.email }}</td>
+    <td>{{ worker.user.username }}</td>
+    <td>{{ worker.user.first_name }}</td>
+    <td>{{ worker.user.last_name }}</td>
+    <td>{{ worker.user.email }}</td>
     <td>
       <form method="post">
         {% csrf_token %}
-        <input type="hidden" name="user_id" value="{{ user.id }}">
+        <input type="hidden" name="user_id" value="{{ worker.user.id }}">
         <button type="submit" name="action" value="delete">Delete worker</button>
       </form>
     </td>
