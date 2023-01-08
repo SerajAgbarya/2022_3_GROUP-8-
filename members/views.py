@@ -47,7 +47,7 @@ def logout_user(request):
 def worker_list(request):
     all_users = User.objects.all()
     workers = []
-    group = Group.objects.get(name='worker')
+    group = Group.objects.get(name='WORKER')
     for user in all_users:
         if user.is_active != True and group in user.groups.all():
             workers.append(user)
@@ -72,7 +72,7 @@ def transfer_to_worker(request):
     all_users = User.objects.all()
     workers = []
     active = []
-    group = Group.objects.get(name='worker')
+    group = Group.objects.get(name='WORKER')
     for user in all_users:
         if group in user.groups.all():
             workers.append(user)
@@ -102,7 +102,7 @@ def delete_worker(request):
     all_users = User.objects.all()
     workers = []
     active = []
-    group = Group.objects.get(name='worker')
+    group = Group.objects.get(name='WORKER')
     for user in all_users:
         if group in user.groups.all():
             workers.append(user)
@@ -131,7 +131,6 @@ def logout_worker(request):
 
 
 def worker_login(request):
-    print("dfsdfsdf")
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
