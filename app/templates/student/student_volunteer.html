@@ -2,33 +2,49 @@
 <head>
     <style>
         /* Add your CSS styles here */
-        .volunteer-hours-list {
+        .volunteer-hours-table {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            width: 80%;
+            margin: 0 auto;
         }
-        .volunteer-hours-item {
+        .volunteer-hours-table__header {
             display: flex;
             align-items: center;
-            margin-bottom: 16px;
-        }
-        .volunteer-hours-item + .volunteer-hours-item {
-            border-top: 1px solid #ccc;
-            padding-top: 16px;
-        }
-        .volunteer-hours-item__date {
-            flex: 0 0 120px;
-            font-size: 14px;
+            justify-content: space-between;
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
             font-weight: bold;
+            background-color: #eee;
         }
-        .volunteer-hours-item__hours {
-            flex: 0 0 80px;
+        .volunteer-hours-table__header .create-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .volunteer-hours-table__row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 16px;
+            border-bottom: 1px solid #ccc;
             font-size: 14px;
         }
-        .create-button {
-            /* Add your styles for the create button here */
-            position: absolute;
-            right: 20px;
-            bottom: 20px;
+        .volunteer-hours-table__row:last-child {
+            border-bottom: none;
+        }
+        .volunteer-hours-table__cell {
+            flex: 0 0 120px;
+        }
+        .volunteer-hours-table__cell:first-child {
+            flex: 0 0 200px;
+        }
+        .volunteer-hours-table__date {
+            font-weight: bold;
         }
         /* Add styles for the pop-up form */
         .form-popup {
@@ -65,24 +81,39 @@
         }
     </style>
 </head>
+</head>
 <body>
 <!-- Add your HTML code here -->
-<div class="volunteer-hours-list">
+<table class="volunteer-hours-table">
+    <tr class="volunteer-hours-table__header">
+        <td>Date</td>
+        <td>Task</td>
+
+        <td>Hours</td>
+        <td><button class="create-button">+</button></td>
+    </tr>
     {% for hours in volunteer_hours_list %}
-    <div class="volunteer-hours-item">
-        <div class="volunteer-hours-item__date">{{ hours.date }}</div>
-        <div class="volunteer-hours-item__hours">{{ hours.hours }}</div>
-    </div>
+    <tr class="volunteer-hours-table__row">
+        <td class="volunteer-hours-table__date">{{ hours.date }}</td>
+        <td class="volunteer-hours-table__date">{{ hours.task_id.description }}</td>
+        <td class="volunteer-hours-table__hours">{{ hours.hours }}</td>
+    </tr>
     {% endfor %}
-</div>
-<button class="create-button">Create</button>
+</table>
 <!-- Add the pop-up form -->
 <div class="form-popup">
-    <form class="form-container">
+    <form class="form-container" method="post" action="save/">
+        {% csrf_token %}
         <label for="date">Date:</label>
-        <input type="date" id="date" placeholder="Enter date">
+        <input type="date" id="date" name="date" placeholder="Enter date">
         <label for="hours">Hours:</label>
-        <input type="number" id="hours" placeholder="Enter hours">
+        <input type="number" id="hours" name="hours" placeholder="Enter hours">
+        <label for="task">Task:</label>
+        <select id="task" name="task">
+            {% for task in tasks %}
+            <option value="{{ task.id }}">{{ task.description }}</option>
+            {% endfor %}
+        </select>
         <input type="submit" value="Submit">
         <input type="button" value="Cancel" onclick="closeForm()">
     </form>
@@ -102,6 +133,23 @@
     function closeForm() {
         formPopup.style.display = "none";
     }
+
+    // Bind an event handler to the submit event of the form
+    // form.addEventListener('submit', function(event) {
+    //     event.preventDefault();
+    //
+    //     // Get the values of the form fields
+    //     const date = document.getElementById('date').value;
+    //     const hours = document.getElementById('hours').value;
+    //     const task = document.getElementById('task').value;
+    //
+    //     // Make an AJAX request to the server to save the volunteer hours
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.open('POST', 'student/volunteer/save/');
+    //     xhr.setRequestHeader('Content-Type', 'application/json');
+    //     xhr.send(JSON.stringify({ date: date, hours: hours, task: task }));
+    // });
 </script>
 </body>
 </html>
+

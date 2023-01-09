@@ -13,6 +13,7 @@ from .scholarship.scholarship_crud import submit_scholarship_reqeust, get_schola
 from .signIn.signIn import signin
 from .signIn.signUp import signup
 from .tokens import generate_token
+from .volunteer.volunteer_hours import save_hours, get_volunteer_hours_page
 
 
 def main(request):
@@ -117,19 +118,21 @@ def student_home_page(request):
     return render(request, 'student/home-student.html', {'student_name': student_name})
 
 
-
 def student_task_page(request):
     user = request.user
     tasks = Task.objects.filter(user_id=user.id)
     context = {'tasks': tasks}
     return render(request, 'student/student_task.html', context)
 
+
 def student_volunteer_page(request):
-    user = request.user
-    print(user)
-    hours = VolunteerHours.objects.filter(user_id=user.id)
-    context = {'volunteer_hours_list': hours}
-    return render(request, 'student/student_volunteer.html', context)
+    return get_volunteer_hours_page(request)
+
+
+def student_save_volunteer(request):
+    return save_hours(request)
+
+
 
 
 def x():
