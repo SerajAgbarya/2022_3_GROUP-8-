@@ -10,6 +10,8 @@ from django.template import loader
 from .models import Worker
 from cdfi import settings
 from app import models
+from django.http import HttpResponse
+from .forms import HourForm
 
 
 @login_required
@@ -192,35 +194,71 @@ def worker_login(request):
         return HttpResponse(template.render({}, request))
 
 
-def admin_view_student(request):
-    """admin show all student """
-    ScholarshipRequest = models.ScholarshipRequest.objects.all()
-    return render(request, 'admin_view_student.html', {'ScholarshipRequest': ScholarshipRequest})
+def student_list(request):
+    all_users = User.objects.all()
+    students = []
+    group = Group.objects.get(name='STUDENT')
+    for user in all_users:
+        if user.is_active != True and group in user.groups.all():
+            students.append(user)
+    if request.method == 'POST':
+        action = request.POST['action']
+        user_id = request.POST['user_id']
+        user = User.objects.get(pk=user_id)
+        if action == 'activate':
+            user.is_active = True
+            user.save()
+            messages.success(request, (f"{user.username} has been activated"))
+
+        return HttpResponseRedirect(request.path_info)
+
+    context = {'students': students}
+    return render(request, 'student_list.html', context)
 
 
 def delete_student(request):
-    ScholarshipRequest = models.ScholarshipRequest.objects.all()
-    group = Group.objects.get(name='ScholarshipRequest')
+    # ScholarshipRequest = models.ScholarshipRequest.objects.all()
+    # group = Group.objects.get(name='ScholarshipRequest')
+    # if request.method == 'POST':
+    #     user_id = request.POST['user_id']
+    #     ScholarshipRequest = User.objects.get(pk=user_id)
+    #     if action == 'delete':
+    #         ScholarshipRequest.delete()
+    #         messages.success(request, (f"{ScholarshipRequest.username} has been deleted"))
+    #
+    #     return HttpResponseRedirect(request.path_info)
+    # return render(request, 'delete_student.html', {'ScholarshipRequest': ScholarshipRequest})
+    all_users = User.objects.all()
+    students = []
+    group = Group.objects.get(name='STUDENT')
+    for user in all_users:
+        if group in user.groups.all():
+            students.append(user)
+
     if request.method == 'POST':
+        action = request.POST['action']
         user_id = request.POST['user_id']
-        ScholarshipRequest = User.objects.get(pk=user_id)
+        user = User.objects.get(pk=user_id)
         if action == 'delete':
-            ScholarshipRequest.delete()
-            messages.success(request, (f"{ScholarshipRequest.username} has been deleted"))
+            user.delete()
+            messages.success(request, (f"{user.username} has been deleted"))
+
 
         return HttpResponseRedirect(request.path_info)
-    return render(request, 'delete_student.html', {'ScholarshipRequest': ScholarshipRequest})
+    context = {'students': students}
+    return render(request, 'delete_student.html', context)
 
 
-def work_hours_list(request):
-    work_hours = WorkHour.objects.filter(user=request.user)
-    return render(request, 'work_hours_list.html', {'work_hours': work_hours})
+def add_hours(request):
+    if request.method == 'POST':
+        form = HourForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('hours_list')
+    else:
+        form = HourForm()
+    return render(request, 'add_hours.html', {'form': form})
 
-
-def add_work_hours(request):
-    ScholarshipRequest = models.ScholarshipRequest.objects.all()
-    start_time = request.POST['start_time']
-    end_time = request.POST['end_time']
-    work_hour = WorkHour(user=user, start_time=start_time, end_time=end_time)
-    work_hour.save()
-    return redirect('work_hours_list')
+def hours_list(request):
+    hours = Hour.objects.all()
+    return render(request, 'hours_list.html', {'hours': hours})

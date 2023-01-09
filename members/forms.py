@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from . import models
-
+from .models import Hour
 
 
 class WorkerUserForm(forms.ModelForm):
@@ -36,3 +36,9 @@ class WorkerForm(forms.ModelForm):
 
         model = models.Worker
         fields = ['idNumber', 'gender','years', 'age']
+
+
+class HourForm(forms.ModelForm):
+    class Meta:
+        model = Hour
+        fields = ['date', 'hours', 'task']

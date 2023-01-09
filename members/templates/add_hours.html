@@ -1,0 +1,18 @@
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Hours</th>
+            <th>Task</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for hour in hours %}
+        <tr>
+            <td>{{ hour.date }}</td>
+            <td>{{ hour.hours }}</td>
+            <td>{{ hour.task }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
