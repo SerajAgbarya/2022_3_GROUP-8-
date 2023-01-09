@@ -22,7 +22,7 @@ def submit_scholarship_reqeust(request):
         scholar_ship_request.user_id = current_user
         scholar_ship_request.save()
         messages.success(request, 'Your request has been received successfully')
-        return redirect('../../student/')
+        return redirect('../../')
     else:
         return get_scholarship_reqeust(request)
 
