@@ -135,5 +135,3 @@ def student_save_volunteer(request):
 
 
 
-def x():
-    return

@@ -248,8 +248,6 @@ def delete_student(request):
         return HttpResponseRedirect(request.path_info)
     context = {'students': students}
     return render(request, 'delete_student.html', context)
-
-
 def add_workhours(request):
     if request.method == 'POST':
         form = WorkHoursForm(request.POST)
