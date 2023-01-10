@@ -19,6 +19,8 @@ urlpatterns = [
     path('student/scholarship/', views.scholarship_view, name='scholarship_view'),
     path('student/scholarship/edit/', views.scholarship_view, name='scholarship_view'),  # TODO handle edit
     path('student/task/', views.student_task_page, name='student_task'),
+    path('student/volunteer/', views.student_volunteer_page, name='student_voulunteer'),
+    path('student/volunteer/save/', views.student_save_volunteer, name='student_save_volunteer'),
 
     path('login_user', v1.login_user, name='login_user'),
 

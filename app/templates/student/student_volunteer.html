@@ -1,0 +1,155 @@
+<html>
+<head>
+    <style>
+        /* Add your CSS styles here */
+        .volunteer-hours-table {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            margin: 0 auto;
+        }
+        .volunteer-hours-table__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #eee;
+        }
+        .volunteer-hours-table__header .create-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .volunteer-hours-table__row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 16px;
+            border-bottom: 1px solid #ccc;
+            font-size: 14px;
+        }
+        .volunteer-hours-table__row:last-child {
+            border-bottom: none;
+        }
+        .volunteer-hours-table__cell {
+            flex: 0 0 120px;
+        }
+        .volunteer-hours-table__cell:first-child {
+            flex: 0 0 200px;
+        }
+        .volunteer-hours-table__date {
+            font-weight: bold;
+        }
+        /* Add styles for the pop-up form */
+        .form-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9;
+            border: 1px solid #ccc;
+            padding: 16px;
+            background-color: white;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-container > * {
+            margin-bottom: 16px;
+        }
+        .form-container label {
+            font-weight: bold;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+        .form-container input[type="submit"] {
+            /* Add your styles for the submit button here */
+        }
+        .form-container input[type="button"] {
+            /* Add your styles for the cancel button here */
+        }
+    </style>
+</head>
+</head>
+<body>
+<!-- Add your HTML code here -->
+<table class="volunteer-hours-table">
+    <tr class="volunteer-hours-table__header">
+        <td>Date</td>
+        <td>Task</td>
+
+        <td>Hours</td>
+        <td><button class="create-button">+</button></td>
+    </tr>
+    {% for hours in volunteer_hours_list %}
+    <tr class="volunteer-hours-table__row">
+        <td class="volunteer-hours-table__date">{{ hours.date }}</td>
+        <td class="volunteer-hours-table__date">{{ hours.task_id.description }}</td>
+        <td class="volunteer-hours-table__hours">{{ hours.hours }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<!-- Add the pop-up form -->
+<div class="form-popup">
+    <form class="form-container" method="post" action="save/">
+        {% csrf_token %}
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" placeholder="Enter date">
+        <label for="hours">Hours:</label>
+        <input type="number" id="hours" name="hours" placeholder="Enter hours">
+        <label for="task">Task:</label>
+        <select id="task" name="task">
+            {% for task in tasks %}
+            <option value="{{ task.id }}">{{ task.description }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Submit">
+        <input type="button" value="Cancel" onclick="closeForm()">
+    </form>
+</div>
+<!-- Add JavaScript to show and close the form pop-up -->
+<script>
+    // Get the create button and form pop-up
+    const createBtn = document.querySelector(".create-button");
+    const formPopup = document.querySelector(".form-popup");
+
+    // When the create button is clicked, show the form pop-up
+    createBtn.addEventListener("click", function() {
+        formPopup.style.display = "block";
+    });
+
+    // When the close button is clicked, close the form pop-up
+    function closeForm() {
+        formPopup.style.display = "none";
+    }
+
+    // Bind an event handler to the submit event of the form
+    // form.addEventListener('submit', function(event) {
+    //     event.preventDefault();
+    //
+    //     // Get the values of the form fields
+    //     const date = document.getElementById('date').value;
+    //     const hours = document.getElementById('hours').value;
+    //     const task = document.getElementById('task').value;
+    //
+    //     // Make an AJAX request to the server to save the volunteer hours
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.open('POST', 'student/volunteer/save/');
+    //     xhr.setRequestHeader('Content-Type', 'application/json');
+    //     xhr.send(JSON.stringify({ date: date, hours: hours, task: task }));
+    // });
+</script>
+</body>
+</html>
+
