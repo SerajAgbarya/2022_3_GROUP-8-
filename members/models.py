@@ -15,9 +15,9 @@ class Worker(models.Model):
     years = models.IntegerField(default=1)
 
 
-class Hour(models.Model):
+class WorkHours(models.Model):
     date = models.DateField()
     hours = models.DecimalField(max_digits=5, decimal_places=2)
-    task = models.CharField(max_length=255)
+    comment = models.TextField(blank=True, null=True)
 
 

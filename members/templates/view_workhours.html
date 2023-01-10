@@ -1,0 +1,23 @@
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Hours</th>
+    <th>Comment</th>
+    <th>Actions</th>
+  </tr>
+  {% for workhours in workhours_list %}
+  <tr>
+    <td>{{ workhours.date }}</td>
+    <td>{{ workhours.hours }}</td>
+    <td>{{ workhours.comment }}</td>
+    <td>
+
+      <form method="POST" action="{% url 'delete_workhours' workhours.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="submit" value="Delete">
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>

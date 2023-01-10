@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from . import models
-from .models import Hour
-
+from .models import WorkHours
 
 class WorkerUserForm(forms.ModelForm):
     """PatientUserForm """
@@ -38,7 +37,7 @@ class WorkerForm(forms.ModelForm):
         fields = ['idNumber', 'gender','years', 'age']
 
 
-class HourForm(forms.ModelForm):
+class WorkHoursForm(forms.ModelForm):
     class Meta:
-        model = Hour
-        fields = ['date', 'hours', 'task']
+        model = WorkHours
+        fields = ['date', 'hours', 'comment']

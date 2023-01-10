@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+
 # 127.0.0.1:8000/members
 urlpatterns = [
     path('', views.index, name='index'),
@@ -16,7 +17,8 @@ urlpatterns = [
     path('money_request', views.money_request, name='money_request'),
     path('student_list',views.student_list, name='student_list'),
     path('delete_student',views.delete_student, name='delete_student'),
-    path('add_hours', views.add_hours, name='add_hours'),
-    path('hours_list', views.hours_list, name='hours_list'),
+    path('add_workhours', views.add_workhours, name='add_workhours'),
+    path('view_workhours', views.view_workhours, name='view_workhours'),
+    path('delete_workhours/<int:pk>/', views.delete_workhours, name='delete_workhours'),
 
 ]

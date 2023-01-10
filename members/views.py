@@ -11,7 +11,8 @@ from .models import Worker
 from cdfi import settings
 from app import models
 from django.http import HttpResponse
-from .forms import HourForm
+from .forms import WorkHoursForm
+from .models import WorkHours
 
 
 @login_required
@@ -249,16 +250,21 @@ def delete_student(request):
     return render(request, 'delete_student.html', context)
 
 
-def add_hours(request):
+def add_workhours(request):
     if request.method == 'POST':
-        form = HourForm(request.POST)
+        form = WorkHoursForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('hours_list')
+            return redirect('view_workhours')
     else:
-        form = HourForm()
-    return render(request, 'add_hours.html', {'form': form})
+        form = WorkHoursForm()
+    return render(request, 'add_workhours.html', {'form': form})
 
-def hours_list(request):
-    hours = Hour.objects.all()
-    return render(request, 'hours_list.html', {'hours': hours})
+
+def view_workhours(request):
+    workhours_list = WorkHours.objects.all()
+    return render(request, 'view_workhours.html', {'workhours_list': workhours_list})
+
+def delete_workhours(request, pk):
+    WorkHours.objects.filter(pk=pk).delete()
+    return redirect('view_workhours')
