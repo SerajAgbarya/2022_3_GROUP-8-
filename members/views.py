@@ -62,6 +62,11 @@ def worker_list(request):
         user = User.objects.get(pk=user_id)
         if action == 'activate':
             user.is_active = True
+            subject = "Accepted for the work in CDFI Bank!"
+            message = "Hello " + user.first_name + "!! \n" + "Welcome to CDFI system! \n You now worker in CDFI Bank. \n You can to enter to the website as a worker ."
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [user.email]
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
             user.save()
             messages.success(request, (f"{user.username} has been activated"))
 
@@ -90,7 +95,7 @@ def transfer_to_worker(request):
         user = User.objects.get(pk=user_id)
         if action == 'transfer':
             subject = "Salary!"
-            message = "Hello " + user.first_name + "!! \n" + "Welcome to CDFI system! \nThank you for Working with us\n. We have sent you a salay for this month.\nPleas check your acount in the bank."
+            message = "Hello " + user.first_name + "!! \n" + "Welcome to CDFI system! \nThank you for Working with us\n. We have sent you a salay for this month.\nPleas come to our ofic to take your salary ."
             from_email = settings.EMAIL_HOST_USER
             to_list = [user.email]
             send_mail(subject, message, from_email, to_list, fail_silently=True)
@@ -131,6 +136,11 @@ def delete_worker(request):
             if worker.user.pk == user_id:
                 worker.delete()
         if action == 'delete':
+            subject = "Block from the CDFI Bank !!!"
+            message = "Hello " + user.first_name + "!! \n" + "Thank you for Working with us\n. You have ben deleted from our system."
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [user.email]
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
             user.delete()
 
             messages.success(request, (f"{user.username} has been deleted"))
