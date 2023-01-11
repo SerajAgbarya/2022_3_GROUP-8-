@@ -241,6 +241,12 @@ def delete_student(request):
         user_id = request.POST['user_id']
         user = User.objects.get(pk=user_id)
         if action == 'delete':
+            subject = "Block from the CDFI Bank !!!"
+            message = "Hello " + user.first_name + "!! \n" + "sorry for ! \nThank you for Working with us\n. you have deleted from CDFI system ."
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [user.email]
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
+            messages.success(request, (f"money has been transfered"))
             user.delete()
             messages.success(request, (f"{user.username} has been deleted"))
 
