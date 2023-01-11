@@ -32,7 +32,7 @@
     </div>
     {% endfor %}
     <h3>Create your account!</h3>
-    <form method="post" action="/student-signup">
+    <form method="post" action="/student/signup/">
       <h6 style="color:red"> {% if signup_error %}<span>{{ signup_error }}</span>{% endif %}</h6>
       {% csrf_token %}
       <div class="form-group">

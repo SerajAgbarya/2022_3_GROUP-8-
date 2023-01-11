@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -8,12 +9,11 @@ from django.utils.http import urlsafe_base64_decode
 
 from members import forms
 from . import constants
+from .constants import STUDENT_LOGIN_PAGE_PATH
 from .models import Task
-from .scholarship.scholarship_crud import submit_scholarship_reqeust, get_scholarship_reqeust
 from .signIn.signIn import signin
 from .signIn.signUp import signup
 from .tokens import generate_token
-from .volunteer.volunteer_hours import save_hours, get_volunteer_hours_page
 
 
 def main(request):
@@ -21,7 +21,7 @@ def main(request):
 
 
 def student_signin(request):
-    return signin(request, "student/student-signin.html", "student/", constants.STUDENT)
+    return signin(request, "student/student-signin.html", "./../", constants.STUDENT)
 
 
 def manager_signin(request):
@@ -94,39 +94,14 @@ def activate_worker(request, uidb64, token):
         return render(request, 'activation_failed.html')
 
 
-def submit_scholarship(request):
-    return submit_scholarship_reqeust(request)
-
-
-def scholarship_form(request):
-    degree_year_choices = [(i, str(i)) for i in range(1, 5)]
-    financial_situation_choices = [('bad', 'Bad'), ('mid', 'Mid'), ('good', 'Good')]
-    yes_no_choices = [('yes', 'Yes'), ('no', 'No')]
-    return render(request, 'student/scholarship-form.html', {
-        'DEGREE_YEAR_CHOICES': degree_year_choices,
-        'FINANCIAL_SITUATION_CHOICES': financial_situation_choices,
-        'YES_NO_CHOICES': yes_no_choices,
-    })
-
-
-def scholarship_view(request):
-    return get_scholarship_reqeust(request)
-
-
+@login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
 def student_home_page(request):
     return render(request, 'student/home-student.html')
 
 
+@login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
 def student_task_page(request):
     user = request.user
     tasks = Task.objects.filter(user_id=user.id)
     context = {'tasks': tasks}
     return render(request, 'student/student_task.html', context)
-
-
-def student_volunteer_page(request):
-    return get_volunteer_hours_page(request)
-
-
-def student_save_volunteer(request):
-    return save_hours(request)

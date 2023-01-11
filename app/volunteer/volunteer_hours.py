@@ -1,22 +1,24 @@
 from datetime import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
+from app.constants import STUDENT_LOGIN_PAGE_PATH
 from app.models import VolunteerHours, Task
 
 
-def get_volunteer_hours_page(request):
+@login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
+def student_volunteer_page(request):
     user = request.user
-    print(user)
     hours = VolunteerHours.objects.filter(user_id=user.id)
     tasks = Task.objects.filter(user_id=user.id)
-    print(tasks)
     context = {'volunteer_hours_list': hours, 'tasks': tasks}
     return render(request, 'student/student_volunteer.html', context)
 
 
-def save_hours(request):
+@login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
+def student_save_volunteer(request):
     if request.method == 'POST':
         print(request.POST)
         user = request.user

@@ -1,11 +1,14 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
 
+from app.constants import STUDENT_LOGIN_PAGE_PATH
 
+
+@login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
 def edit_student_personal_info(request):
     myuser = request.user
-    print(f' aaaa - > {myuser.password}')
     context = {}
     changed = False
     new_pass = myuser.password
@@ -14,7 +17,6 @@ def edit_student_personal_info(request):
         lname = request.POST['lname']
         pass1 = request.POST['pass1']
         pass2 = request.POST['pass2']
-        print(pass1)
         if pass1 != pass2:
             context["error"] = "Passwords didn't matched!!"
         elif pass1 != '':
