@@ -12,7 +12,7 @@
           alt="Avatar"
           style="width: 100%"
         />
-        <form action="student-signin" method="post" class="container">
+        <form action="/student/signin/" method="post" class="container">
           {% csrf_token %}
           <h4><b>Student sign in page</b></h4>
           <h6 style="color:red"> {% if login_error %}<span>{{ login_error }}</span>{% endif %}</h6>
