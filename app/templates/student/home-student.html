@@ -1,4 +1,3 @@
-
 <html>
 <head>
     <title>Student Home</title>
@@ -7,11 +6,13 @@
         body {
             font-family: Arial, sans-serif;
         }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
+
         .link {
             display: inline-block;
             background-color: blue;
@@ -20,9 +21,11 @@
             text-decoration: none;
             border-radius: 5px;
         }
+
         .link:hover {
             background-color: lightblue;
         }
+
         /* Add your CSS styles here */
         .messages {
             list-style: none;
@@ -43,23 +46,58 @@
         }
 
         .messages .error {
-            background-color: #ffcccc;
+            background-color: #ccffcc;
             border-color: #cc0000;
         }
 
+        /* Add your new CSS styles here */
+        .login-panel {
+            float: right;
+        }
+
+        .user-icon {
+            width: 100px;
+            height: 100px;
+            background-image: url('../../icons/user-icon.png');
+            cursor: pointer;
+        }
+
+        .login-dropdown {
+            display: none;
+            position: absolute;
+            background-color: lightblue;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+            z-index: 1;
+        }
+
+        #login-dropdown.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
 <div class="container">
+    <div class="login-panel">
+        <div class="user-icon" onclick="toggleLoginPanel()"></div>
+        <div id="login-dropdown" class="login-dropdown">
+            <p>{{ user.username }}</p>
+            <p>Last_login: {{user.last_login}}</p>
+            <a href="/student/personal_info/edit/">Edit Personal Info</a>
+            <br/>
+            <br/>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        <li
+        {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}
     </ul>
     {% endif %}
-    <h1>Welcome, {{ student_name }}!</h1>
-    <p>Here are some quick links:</p>
     <ul>
         <li><a class="link" href="/student/scholarship/create/">Request Scholarship</a></li>
         <li><a class="link" href="/student/scholarship/">View Scholarship Request</a></li>
@@ -67,5 +105,14 @@
         <li><a class="link" href="/student/volunteer/">My Volunteer Details</a></li>
     </ul>
 </div>
+
+<script>
+    function toggleLoginPanel() {
+        var loginDropdown = document.getElementById("login-dropdown");
+        loginDropdown.classList.toggle("show");
+    }
+</script>
+
 </body>
 </html>
+
