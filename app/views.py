@@ -48,12 +48,12 @@ def worker_signup(request):
             user = user_form.save()
             user.set_password(user.password)
             user.is_active = False
-            user.save()
             worker = worker_form.save(commit=False)
+            my_worker_group = Group.objects.get(name=constants.WORKER)
+            user.groups.add(my_worker_group)
+            user.save()
             worker.user = user
             worker = worker.save()
-            my_worker_group = Group.objects.get(constants.WORKER)
-            my_worker_group[0].user_set.add(user)
         return redirect('home')
     return render(request, 'workersignup.html', context=mydict)
 
