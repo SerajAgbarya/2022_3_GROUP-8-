@@ -8,7 +8,7 @@ from django.utils.http import urlsafe_base64_decode
 
 from members import forms
 from . import constants
-from .models import Task, VolunteerHours
+from .models import Task
 from .scholarship.scholarship_crud import submit_scholarship_reqeust, get_scholarship_reqeust
 from .signIn.signIn import signin
 from .signIn.signUp import signup
@@ -114,8 +114,7 @@ def scholarship_view(request):
 
 
 def student_home_page(request):
-    student_name = request.user.first_name.capitalize()
-    return render(request, 'student/home-student.html', {'student_name': student_name})
+    return render(request, 'student/home-student.html')
 
 
 def student_task_page(request):
@@ -131,7 +130,3 @@ def student_volunteer_page(request):
 
 def student_save_volunteer(request):
     return save_hours(request)
-
-
-
-

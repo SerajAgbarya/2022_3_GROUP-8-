@@ -2,6 +2,8 @@ from django.urls import path
 
 from members import views as v1
 from . import views
+from .icons import icons
+from .user import user_info
 
 urlpatterns = [
     path('', views.main, name='home'),
@@ -12,6 +14,10 @@ urlpatterns = [
     path('student-signin', views.student_signin, name='student_signin'),
     path('worker-signup', views.worker_signup, name='worker_signup'),
     path('worker-signin', views.worker_signin, name='worker_signin'),
+
+    # Icons & Images
+    path('icons/user-icon.png', icons.get_student_user_icon, name='student_user_icon'),
+
     # student urls
     path('student/', views.student_home_page, name='student_home_page'),
     path('student/scholarship/submit/', views.submit_scholarship, name='submit_scholarship'),
@@ -21,6 +27,7 @@ urlpatterns = [
     path('student/task/', views.student_task_page, name='student_task'),
     path('student/volunteer/', views.student_volunteer_page, name='student_voulunteer'),
     path('student/volunteer/save/', views.student_save_volunteer, name='student_save_volunteer'),
+    path('student/personal_info/edit/', user_info.edit_student_personal_info, name='edit_student_personal_info'),
 
     path('login_user', v1.login_user, name='login_user'),
 
