@@ -1,47 +1,55 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-  <link rel="stylesheet" href="{% static 'style.css' %}" />
-  <link rel="stylesheet" href="{% static 'button.css' %}" />
-  <body>
-
-    <div class="card-outer">
-      <div class="card">
+<link rel="stylesheet" href="{% static 'style.css' %}"/>
+<link rel="stylesheet" href="{% static 'button.css' %}"/>
+<body>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li
+            {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="card-outer">
+    <div class="card">
         <img
-          src="https://www.w3schools.com/howto/img_avatar.png"
-          alt="Avatar"
-          style="width: 100%"
+                src="https://www.w3schools.com/howto/img_avatar.png"
+                alt="Avatar"
+                style="width: 100%"
         />
         <form action="/student/signin/" method="post" class="container">
-          {% csrf_token %}
-          <h4><b>Student sign in page</b></h4>
-          <h6 style="color:red"> {% if login_error %}<span>{{ login_error }}</span>{% endif %}</h6>
-          <p>
-            <input
-              required
-              id="username"
-              name="username"
-              class="textbox"
-              type="text"
-              placeholder="Enter username"
-            />
-          </p>
-          <p>
-            <input
-              required
-              id="password"
-              name="password"
-              class="textbox"
-              type="text"
-              placeholder="Enter password"
-            />
-          </p>
-          <p>
-            <input type="submit" class="btn log" value="Sign in" />
-          </p>
+            {% csrf_token %}
+            <h4><b>Student sign in page</b></h4>
+            <h6 style="color:red"> {% if login_error %}<span>{{ login_error }}</span>{% endif %}</h6>
+            <p>
+                <input
+                        required
+                        id="username"
+                        name="username"
+                        class="textbox"
+                        type="text"
+                        placeholder="Enter username"
+                />
+            </p>
+            <p>
+                <input
+                        required
+                        id="password"
+                        name="password"
+                        class="textbox"
+                        type="text"
+                        placeholder="Enter password"
+                />
+            </p>
+            <p>
+                <input type="submit" class="btn log" value="Sign in"/>
+            </p>
 
         </form>
-      </div>
     </div>
-  </body>
+</div>
+</body>
 </html>
