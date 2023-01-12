@@ -2,8 +2,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from app.constants import STUDENT_LOGIN_PAGE_PATH
-from app.models import ScholarshipRequest
+from app.constants import STUDENT_LOGIN_PAGE_PATH, YES_SMALL
+from app.models import ScholarshipRequest, PointsByYear, PointsByAge, PointsByFinancialSituation, PointsByParentWork, \
+    PointsBySpecialNeeds, PointsByTenant
 
 
 @login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
@@ -24,6 +25,7 @@ def submit_scholarship_reqeust(request):
         )
         scholar_ship_request.user_id = current_user
         scholar_ship_request.save()
+        calculate_points(scholar_ship_request)
         messages.success(request, 'Your request has been received successfully')
         return redirect('../../')
     else:
@@ -53,3 +55,64 @@ def scholarship_view(request):
     else:
         return render(request, 'student/scholarship-form-view.html', {'request': None})
     # TODO add info message that there is no opne requests . or att all we should not reach this form if no request eists
+
+
+def get_points_by_year(degree_year):
+    try:
+        points = PointsByYear.objects.get(degree_year=degree_year).points
+        return points
+    except PointsByYear.DoesNotExist:
+        return 0
+
+
+def get_points_by_age(age):
+    try:
+        points_by_age = PointsByAge.objects.get(minAge__lte=age, maxAge__gte=age)
+        return points_by_age.points
+    except PointsByAge.DoesNotExist:
+        return 0
+
+
+def get_points_by_financial_situation(financial_situation):
+    try:
+        points = PointsByFinancialSituation.objects.get(financial_situation=financial_situation.lower()).points
+        return points
+    except PointsByFinancialSituation.DoesNotExist:
+        return 0
+
+
+def get_points_by_parent_work(parent_work):
+    try:
+        points = PointsByParentWork.objects.get(parent_work=parent_work.lower()).points
+        return points
+    except PointsByParentWork.DoesNotExist:
+        return 0
+
+
+def get_points_by_special_needs(special_needs):
+    try:
+        points = PointsBySpecialNeeds.objects.get(special_needs=special_needs.lower()).points
+        return points
+    except PointsBySpecialNeeds.DoesNotExist:
+        return 0
+
+
+def get_points_by_tenant(tenant):
+    try:
+        points = PointsByTenant.objects.get(tenant=tenant.lower()).points
+        return points
+    except PointsByTenant.DoesNotExist:
+        return 0
+
+
+def calculate_points(scholar_ship_request):
+    points = 0
+    if scholar_ship_request.volunteer.lower() == YES_SMALL:
+        points += get_points_by_year(scholar_ship_request.degree_year)
+        points += get_points_by_age(scholar_ship_request.age)
+        points += get_points_by_financial_situation(scholar_ship_request.financial_situation)
+        points += get_points_by_parent_work(scholar_ship_request.parent_work)
+        points += get_points_by_special_needs(scholar_ship_request.special_needs)
+        points += get_points_by_tenant(scholar_ship_request.tenant)
+    scholar_ship_request.points = points
+    scholar_ship_request.save()

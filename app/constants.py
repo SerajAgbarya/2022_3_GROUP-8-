@@ -2,4 +2,18 @@ WORKER = 'WORKER'
 STUDENT = 'STUDENT'
 MANAGER = 'MANGER'
 
+BAD_SMALL = 'bad'
+MID_SMALL = 'mid'
+GOOD_SMALL = 'good'
+GOOD = 'Good'
+MID = 'Mid'
+BAD = 'Bad'
+YES_SMALL = 'yes'
+NO_SMALL = 'no'
+YES = 'Yes'
+NO = 'No'
+
 STUDENT_LOGIN_PAGE_PATH = '/student/signin/'
+NO_YES_CHOICES = [(NO_SMALL, NO), (YES_SMALL, YES)]
+FINANCIAL_SITUATION_CHOICES = [(BAD_SMALL, BAD), (MID_SMALL, MID), (GOOD_SMALL, GOOD)]
+DEGREE_YEAR_CHOICES = [(i, str(i)) for i in range(1, 5)]
