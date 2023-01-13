@@ -2,7 +2,7 @@
 
 from django.db import migrations
 
-from app.reference_data.reference_data import create_reference_data
+from app.services.reference_data.reference_data import create_reference_data
 
 
 class Migration(migrations.Migration):
