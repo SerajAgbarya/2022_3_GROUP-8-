@@ -9,9 +9,9 @@ from django.utils.http import urlsafe_base64_decode
 
 from members import forms
 from . import constants
-from .constants import STUDENT_LOGIN_PAGE_PATH
+from .constants import STUDENT_LOGIN_PAGE_PATH, STUDENT_HOME_PAGE
 from .models import Task
-from .scholarship.scholarship_dao import get_scholarship_request
+from .scholarship.scholarship_dao import get_scholarship_request, have_approved_request
 from .signIn.signIn import signin
 from .signIn.signUp import signup
 from .tokens import generate_token
@@ -98,12 +98,8 @@ def activate_worker(request, uidb64, token):
 @login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
 def student_home_page(request):
     have_request = get_scholarship_request(request.user) is not None
-    return render(request, 'student/home-student.html', {'have_request': have_request })
+    request_approved = have_approved_request(request.user)
+    return render(request, 'student/home-student.html', {'have_request': have_request,
+                                                         'request_approved': request_approved})
 
 
-@login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
-def student_task_page(request):
-    user = request.user
-    tasks = Task.objects.filter(user_id=user.id)
-    context = {'tasks': tasks}
-    return render(request, 'student/student_task.html', context)

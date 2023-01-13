@@ -5,6 +5,7 @@ from . import views
 from .icons import icons
 from .scholarship import scholarship
 from .signIn import logout
+from .tasks import tasks
 from .user import user_info
 from .volunteer import volunteer_hours
 
@@ -28,7 +29,7 @@ urlpatterns = [
     path('student/scholarship/create/', scholarship.scholarship_form, name='scholarship_form'),
     path('student/scholarship/', scholarship.scholarship_view, name='scholarship_view'),
     path('student/scholarship/edit/', scholarship.scholarship_view, name='scholarship_view'),  # TODO handle edit
-    path('student/task/', views.student_task_page, name='student_task'),
+    path('student/task/', tasks.student_task_page, name='student_task'),
     path('student/volunteer/', volunteer_hours.student_volunteer_page, name='student_voulunteer'),
     path('student/volunteer/save/', volunteer_hours.student_save_volunteer, name='student_save_volunteer'),
     path('student/personal_info/', user_info.edit_student_personal_info, name='edit_student_personal_info'),

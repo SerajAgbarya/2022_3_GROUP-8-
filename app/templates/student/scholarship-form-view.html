@@ -4,113 +4,9 @@
 <a style="float: left; outline: none;" disabled>-></a>
 <a id="scholarship-breadcrumb" href="/student/scholarship/" style="float: left;">Scholarship</a>
 {% endblock %}
+
 {% block content %}
-<html>
-<head>
-    <style>
-        /* Style the form */
-        #scholarship-form {
-            width: 500px;
-            margin: 0 auto;
-            font-family: sans-serif;
-        }
 
-        /* Style the form elements */
-        #scholarship-form .form-group {
-            margin-bottom: 20px;
-        }
-
-        #scholarship-form label {
-            display: block;
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        #scholarship-form .form-control {
-            display: block;
-            width: 100%;
-            padding: 8px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        /* Style the error messages */
-        .error {
-            color: red;
-            font-size: 12px;
-        }
-
-        #age:enabled {
-            color: black;
-        }
-
-        #age:disabled {
-            color: gray;
-        }
-
-        /* Style the submit button */
-        #scholarship-form button[type="submit"] {
-            width: 100%;
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            margin-top: 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        #cancel-button[type="button"] {
-            width: 100%;
-            background-color: gray;
-            color: white;
-            padding: 14px 20px;
-            margin-top: 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        #cancel-button[type="button"]:hover {
-            background-color: darkgray;
-        }
-
-        #scholarship-form button[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        .progress-bar {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .bar-container {
-            width: 80%;
-            height: 20px;
-            background: #ddd;
-            position: relative;
-        }
-
-        .bar {
-            height: 100%;
-            position: absolute;
-        }
-
-        .status-container {
-            margin-top: 10px;
-        }
-
-        .status {
-            font-size: 14px;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
 <form id="scholarship-form" method="post" action="/student/scholarship/submit/">
     <br/>
     <div class="progress-bar">
@@ -128,7 +24,7 @@
                 {% if request.status == 'UNDER_REVIEW' %}
                 We are reviewing your request, we will be in touch soon
                 {% endif %}
-                {% if request.status == 'ACCEPTED' %}
+                {% if request.status == 'APPROVED' %}
                 Congratulations! Your request has been approved :)
                 {% endif %}
                 {% if request.status == 'REJECTED' %}
@@ -261,6 +157,5 @@
     }
 
 </script>
-</body>
-</html>
+
 {% endblock %}

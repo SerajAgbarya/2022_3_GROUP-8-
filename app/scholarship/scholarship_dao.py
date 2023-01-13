@@ -15,5 +15,12 @@ def get_or_create_scholar_ship_request(current_user):
     return sc
 
 
+def have_approved_request(current_user):
+    request = get_scholarship_request(current_user)
+    if request is not None:
+        return request.status == ScholarshipRequest.APPROVED
+    return False
+
+
 def create_scholarship_request():
     return ScholarshipRequest()
