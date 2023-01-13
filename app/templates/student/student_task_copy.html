@@ -1,0 +1,134 @@
+<head>
+    <title>Student Tasks</title>
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="/app/static/user_info_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+          crossorigin="anonymous"/>
+    <meta name="robots" content="NONE,NOARCHIVE">
+    <style>
+        .login-panel {
+            float: left;
+        }
+
+        .user-icon {
+            width: 100px;
+            height: 100px;
+            background-image: url('/../../icons/student-icon.png');
+            cursor: pointer;
+        }
+
+        .login-dropdown {
+            display: none;
+            position: absolute;
+            background-color: lightblue;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            padding: 12px 16px;
+            z-index: 1;
+        }
+
+        #login-dropdown.show {
+            display: block;
+        }
+
+        .task-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-card p {
+            margin: 0;
+        }
+
+        .col-4 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .col-4 h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+
+    </style>
+</head>
+<div id="container">
+    <div id="header">
+        <div id="branding" style="margin: 0 auto; justify-content: center">
+            <h1 id="site-name2"><a href="/admin/">CDFI Enterprise</a></h1>
+        </div>
+    </div>
+    <div class="breadcrumbs">
+        <a id="home" href="/student/" style="float: left;">Home</a>
+        <a id="logout" href="/student/logout/" style="float: right;">LogOut</a>
+    </div>
+    <div class="main shifted" id="main">
+        <div class="content">
+            <div id="content" class="colM">
+                <div class="row">
+                    <div class="col-4">
+                        <h2>To Do</h2>
+                        {% for task in tasks %}
+                        {% if task.status == 'TO_DO' %}
+                        <div class="task-card">
+                            <p>{{ task.description }}</p>
+                            <p>Total hours: {{ task.total_hours }}</p>
+                            <p>Completed hours: {{ task.completed_hours }}</p>
+                            <p>Location: {{ task.place }}</p>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="col-4">
+                        <h2>In Progress</h2>
+                        {% for task in tasks %}
+                        {% if task.status == 'IN_PROGRESS' %}
+                        <div class="task-card">
+                            <p>{{ task.description }} </p>
+                            <p>Total hours: {{ task.total_hours }}</p>
+                            <p>Completed hours: {{ task.completed_hours }}</p>
+                            <p>Location: {{ task.place }}</p>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="col-4">
+                        <h2>Completed</h2>
+                        {% for task in tasks %}
+                        {% if task.status == 'COMPLETED' %}
+                        <div class="task-card">
+                            <p>{{ task.description }}</p>
+                            <p>Total hours: {{ task.total_hours }}</p>
+                            <p>Completed hours: {{ task.completed_hours }}</p>
+                            <p>Location: {{ task.place }}</p>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div id="footer"></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function toggleLoginPanel() {
+        var loginDropdown = document.getElementById("login-dropdown");
+        loginDropdown.classList.toggle("show");
+    }
+
+    function toggleSidebar() {
+        var sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("active");
+    }
+</script>

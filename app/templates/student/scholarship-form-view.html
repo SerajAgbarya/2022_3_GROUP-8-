@@ -1,54 +1,240 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>View Scholarship Request</title>
     <style>
-        /* Style the container */
-        .container {
+        /* Style the form */
+        #scholarship-form {
             width: 500px;
-            margin: 100px auto;
-            text-align: center;
+            margin: 0 auto;
             font-family: sans-serif;
         }
 
-        /* Style the heading */
-        .container h1 {
-            font-size: 24px;
+        /* Style the form elements */
+        #scholarship-form .form-group {
             margin-bottom: 20px;
         }
 
-        /* Style the paragraphs */
-        .container p {
-            font-size: 18px;
-            margin-bottom: 10px;
+        #scholarship-form label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
         }
 
-        /* Style the button */
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
+        #scholarship-form .form-control {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
             border-radius: 4px;
         }
 
-        .button:hover {
+        /* Style the error messages */
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+
+        #age:enabled {
+            color: black;
+        }
+
+        #age:disabled {
+            color: gray;
+        }
+
+        /* Style the submit button */
+        #scholarship-form button[type="submit"] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #cancel-button[type="button"] {
+            width: 100%;
+            background-color: gray;
+            color: white;
+            padding: 14px 20px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #cancel-button[type="button"]:hover {
+            background-color: darkgray;
+        }
+
+        #scholarship-form button[type="submit"]:hover {
             background-color: #45a049;
+        }
+
+        .progress-bar {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bar-container {
+            width: 80%;
+            height: 20px;
+            background: #ddd;
+            position: relative;
+        }
+
+        .bar {
+            height: 100%;
+            position: absolute;
+        }
+
+        .status-container {
+            margin-top: 10px;
+        }
+
+        .status {
+            font-size: 14px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>View Scholarship Request</h1>
-    <p>Degree year: {{ request.degree_year }}</p>
-    <p>Age: {{ request.age }}</p>
-    <p>Financial situation: {{ request.financial_situation }}</p>
-    <p>Parent work: {{ request.parent_work }}</p>
-    <p>Special needs: {{ request.special_needs }}</p>
-    <p>Tenant: {{ request.tenant }}</p>
-    <p>Volunteer: {{ request.volunteer }}</p>
-    <a class="button" href="/student/scholarship/edit/">Edit</a>
-</div>
+<form id="scholarship-form" method="post" action="/student/scholarship/submit/">
+    <div class="progress-bar">
+        <div class="bar-container">
+            <div class="bar" style="width: 100%"></div>
+        </div>
+        <div class="status-container">
+            <span class="status {% if request.status == 'PENDING' %}pending{% endif %}{% if request.status == 'UNDER_REVIEW' %}under-review{% endif %}{% if request.status == 'ACCEPTED' %}accepted{% endif %}{% if request.status == 'REJECTED' %}rejected{% endif %}">{{ request.status }}</span>
+        </div>
+        <div class="message-container">
+            <p class="message">
+                {% if request.status == 'PENDING' %}
+                We got Your Request, we will look into it soon
+                {% endif %}
+                {% if request.status == 'UNDER_REVIEW' %}
+                We are reviewing your request, we will be in touch soon
+                {% endif %}
+                {% if request.status == 'ACCEPTED' %}
+                Congratulations! Your request has been approved :)
+                {% endif %}
+                {% if request.status == 'REJECTED' %}
+                Oh Sorry! But we could not approve your request
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="degree-year">Degree Year</label>
+        <select class="form-control" id="degree-year" name="degree_year" disabled>
+            {% for year in DEGREE_YEAR_CHOICES %}
+            {% if year.0 == request.degree_year %}
+            <option value="{{ request.degree_year }}" selected>{{ request.degree_year }}</option>
+            {% else %}
+            <option value="{{ year.0 }}">{{ year.1 }}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" class="form-control" id="age" name="age" min="18" max="100" disabled
+               value="{{ request.age }}">
+    </div>
+    <div class="form-group">
+        <label for="financial-situation">Financial Situation</label>
+        <select class="form-control" id="financial-situation" name="financial_situation" disabled>
+            {% for situation in FINANCIAL_SITUATION_CHOICES %}
+            {% if situation.0 == request.financial_situation %}
+            <option value="{{ request.financial_situation }}" selected>{{ request.financial_situation }}</option>
+            {% else %}
+            <option value="{{ situation.0 }}">{{ situation.1 }}</option>
+            {% endif%}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="parent-work">Do your parents work?</label>
+        <select class="form-control" id="parent-work" name="parent_work" disabled>
+            {% for choice in YES_NO_CHOICES %}
+            {% if choice.0 == request.parent_work %}
+            <option value="{{ request.parent_work }}" selected>{{ request.parent_work }}</option>
+            {% else %}
+            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endif%}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="tenant">Are you a tenant?</label>
+        <select class="form-control" id="tenant" name="tenant" required disabled>
+            {% for choice in YES_NO_CHOICES %}
+            {% if choice.0 == request.tenant %}
+            <option value="{{ request.tenant }}" selected>{{ request.tenant }}</option>
+            {% else %}
+            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endif%}
+            {% endfor %}
+        </select>
+        <div id="tenant-error" class="error"></div>
+    </div>
+    <div class="form-group">
+        <label for="special-needs">Do you have special needs?</label>
+        <select class="form-control" id="special-needs" name="special_needs" disabled>
+
+            {% for choice in YES_NO_CHOICES %}
+            {% if choice.0 == request.special_needs %}
+            <option value="{{ request.special_needs }}" selected>{{ request.special_needs }}</option>
+            {% else %}
+            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endif%}
+            {% endfor %}
+        </select>
+    </div>
+    <button type="button" id="edit-button" onclick="enableEdit()">Edit</button>
+    <button type="submit" id="submit-button" hidden>Submit</button>
+    <input type="button" id="cancel-button" value="Cancel" onclick="window.location.href='/student/';"
+           class="btn btn-secondary" hidden>
+    <input type="button" id="cancel-button2" value="Cancel" onclick="window.location.href='/student/';"
+           class="btn btn-secondary">
+</form>
+<script>
+    function enableEdit() {
+        document.getElementById("degree-year").disabled = false;
+        document.getElementById("age").disabled = false;
+        document.getElementById("financial-situation").disabled = false;
+        document.getElementById("parent-work").disabled = false;
+        document.getElementById("special-needs").disabled = false;
+        document.getElementById("tenant").disabled = false;
+        document.getElementById("submit-button").hidden = false;
+        document.getElementById("edit-button").hidden = true;
+        document.getElementById("cancel-button").hidden = false;
+        document.getElementById("cancel-button2").hidden = true;
+    }
+
+    let status = "{{ request.status }}";
+    let bar = document.querySelector('.bar');
+
+    if(status === 'PENDING') {
+        bar.style.width = '10%';
+        bar.style.background = 'gray';
+    } else if(status === 'UNDER_REVIEW') {
+        bar.style.width = '50%';
+        bar.style.background = 'blue';
+    } else if(status === 'APPROVED') {
+        bar.style.width = '100%';
+        bar.style.background = 'green';
+    } else if(status === 'REJECTED') {
+        bar.style.width = '100%';
+        bar.style.background = 'red';
+    }
+
+</script>
 </body>
 </html>

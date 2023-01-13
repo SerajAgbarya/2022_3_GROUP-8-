@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="/app/static/user_info_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+          crossorigin="anonymous"/>
+    <meta name="robots" content="NONE,NOARCHIVE">
+</head>
+<body>
+<!--<nav>-->
+<!--    <a href="/student/">Home</a>-->
+<!--    <a href="/student/personal_info/">Contact</a>-->
+<!--    <a href="/student/task/">Tasks</a>-->
+<!--</nav>-->
+<div id="container">
+    <div id="header">
+        <div id="branding" style="margin: 0 auto; justify-content: center">
+            <h1 id="site-name2"><a href="/admin/">CDFI Enterprise</a></h1>
+        </div>
+    </div>
+    <div class="breadcrumbs">
+        <a id="home" href="/student/" style="float: left;">Home</a>
+        <a id="logout" href="/student/logout/" style="float: right;">LogOut</a>
+    </div>
+<!--    <div class="main shifted" id="main">-->
+    <div/>
+    {% block content %}{% endblock %}
+    <div>
+<!--    </div>-->
+</div>
+
+
+
+</body>
+</html>
