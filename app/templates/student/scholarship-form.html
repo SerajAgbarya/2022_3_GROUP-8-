@@ -46,8 +46,24 @@
             cursor: pointer;
         }
 
+
         #scholarship-form button[type="submit"]:hover {
             background-color: #45a049;
+        }
+
+        #cancel-button[type="button"] {
+            width: 100%;
+            background-color: gray;
+            color: white;
+            padding: 14px 20px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #cancel-button[type="button"]:hover {
+            background-color: darkgray;
         }
     </style>
 </head>
@@ -110,99 +126,22 @@
         <div id="tenant-error" class="error"></div>
     </div>
     <div class="form-group">
-        <label for="volunteer">Do you agree to volunteer?</label>
-        <select class="form-control" id="volunteer" name="volunteer" required>
-            <option value="" disabled selected>Select yes or no</option>
-            {% for choice in YES_NO_CHOICES %}
-            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-            {% endfor %}
-        </select>
+        <label for="volunteer">
+            <input type="checkbox" id="volunteer" name="volunteer" required>
+            I agree to volunteer.
+        </label>
         <div id="volunteer-error" class="error"></div>
     </div>
     <button type="submit" class="btn btn-primary">Submit Request</button>
+    <input type="button" id="cancel-button" value="Cancel" onclick="window.location.href='/student/';"
+           class="btn btn-secondary">
 </form>
 
 <script>
-    // Form validation
     const form = document.getElementById('scholarship-form');
     form.addEventListener('submit', (event) => {
         event.preventDefault();
-        let isValid = true;
-
-        // Validate degree year
-        const degreeYear = document.getElementById('degree-year');
-        const degreeYearError = document.getElementById('degree-year-error');
-        if (degreeYear.value === "") {
-            degreeYearError.textContent = "Please select your degree year";
-            isValid = false;
-        } else {
-            degreeYearError.textContent = "";
-        }
-
-        // Validate age
-        const age = document.getElementById('age');
-        const ageError = document.getElementById('age-error');
-        if (age.value === "") {
-            ageError.textContent = "Please enter your age";
-            isValid = false;
-        } else {
-            ageError.textContent = "";
-        }
-
-        // Validate financial situation
-        const financialSituation = document.getElementById('financial-situation');
-        const financialSituationError = document.getElementById('financial-situation-error');
-        if (financialSituation.value === "") {
-            financialSituationError.textContent = "Please select your financial situation";
-            isValid = false;
-        } else {
-            financialSituationError.textContent = "";
-        }
-
-        // Validate parent work
-        const parentWork = document.getElementById('parent-work');
-        const parentWorkError = document.getElementById('parent-work-error');
-        if (parentWork.value === "") {
-            parentWorkError.textContent = "Please select yes or no";
-            isValid = false;
-        } else {
-            parentWorkError.textContent = "";
-        }
-
-        // Validate special needs
-        const specialNeeds = document.getElementById('special-needs');
-        const specialNeedsError = document.getElementById('special-needs-error');
-        if (specialNeeds.value === "") {
-            specialNeedsError.textContent = "Please select yes or no";
-            isValid = false;
-        } else {
-            specialNeedsError.textContent = "";
-        }
-
-        // Validate tenant
-        const tenant = document.getElementById('tenant');
-        const tenantError = document.getElementById('tenant-error');
-        if (tenant.value === "") {
-            tenantError.textContent = "Please select yes or no";
-            isValid = false;
-        } else {
-            tenantError.textContent = "";
-        }
-
-        // Validate volunteer
-        const volunteer = document.getElementById('volunteer');
-        const volunteerError = document.getElementById('volunteer-error');
-        if (volunteer.value === "") {
-            volunteerError.textContent = "Please select yes or no";
-            isValid = false;
-        } else {
-            volunteerError.textContent = "";
-        }
-
-        // If the form is valid, submit it
-        if (isValid) {
-            form.submit();
-        }
+        form.submit();
     });
 </script>
 

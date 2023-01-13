@@ -11,6 +11,7 @@ from members import forms
 from . import constants
 from .constants import STUDENT_LOGIN_PAGE_PATH
 from .models import Task
+from .scholarship.scholarship_dao import get_scholarship_request
 from .signIn.signIn import signin
 from .signIn.signUp import signup
 from .tokens import generate_token
@@ -96,7 +97,8 @@ def activate_worker(request, uidb64, token):
 
 @login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
 def student_home_page(request):
-    return render(request, 'student/home-student.html')
+    have_request = get_scholarship_request(request.user) is not None
+    return render(request, 'student/home-student.html', {'have_request': have_request })
 
 
 @login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
