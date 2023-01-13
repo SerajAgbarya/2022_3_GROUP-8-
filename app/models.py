@@ -68,11 +68,6 @@ class PointsByYear(models.Model):
 
 
 class PointsByAge(models.Model):
-    age = models.PositiveSmallIntegerField()
-    points = models.IntegerField(default=0)
-
-
-class PointsByAge(models.Model):
     minAge = models.PositiveSmallIntegerField()
     maxAge = models.PositiveSmallIntegerField()
     points = models.IntegerField(default=0)
@@ -90,11 +85,6 @@ class PointsByParentWork(models.Model):
 
 class PointsBySpecialNeeds(models.Model):
     special_needs = models.CharField(max_length=3, choices=NO_YES_CHOICES)
-    points = models.IntegerField(default=0)
-
-
-class PointsByTenant(models.Model):
-    tenant = models.CharField(max_length=3, choices=NO_YES_CHOICES)
     points = models.IntegerField(default=0)
 
 
