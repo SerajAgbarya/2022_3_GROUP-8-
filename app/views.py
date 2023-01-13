@@ -1,23 +1,24 @@
 from django.contrib import messages
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 
+from app.services.signIn.signIn import signin
+from app.services.signIn.signUp import signup
 from members import forms
 from . import constants
-from .constants import STUDENT_LOGIN_PAGE_PATH, STUDENT_HOME_PAGE
-from .models import Task
-from .scholarship.scholarship_dao import get_scholarship_request, have_approved_request
-from .signIn.signIn import signin
-from .signIn.signUp import signup
+from .constants import STUDENT_HOME_PAGE
+from .services.user.user_dao import is_student
 from .tokens import generate_token
 
 
 def main(request):
+    user = request.user
+    if user.is_authenticated and is_student(user):
+        return redirect(STUDENT_HOME_PAGE)
     return render(request, 'index.html')
 
 
@@ -67,11 +68,7 @@ def activate(request, uidb64, token):
         myuser = None
 
     if myuser is not None and generate_token.check_token(myuser, token):
-        myuser.is_active = True
-        # user.profile.signup_confirmation = True
-        myuser.save()
-        login(request, myuser)
-        messages.success(request, "Your Account has been activated!!")
+        messages.success(request, "Your Email has been Confirmed ,Please wait for admin approval to get access")
         return redirect('student_signin')
     else:
         return render(request, 'activation_failed.html')
@@ -93,13 +90,3 @@ def activate_worker(request, uidb64, token):
         return redirect('worker_signin')
     else:
         return render(request, 'activation_failed.html')
-
-
-@login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
-def student_home_page(request):
-    have_request = get_scholarship_request(request.user) is not None
-    request_approved = have_approved_request(request.user)
-    return render(request, 'student/home-student.html', {'have_request': have_request,
-                                                         'request_approved': request_approved})
-
-

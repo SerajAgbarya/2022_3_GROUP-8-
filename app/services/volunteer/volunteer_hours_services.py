@@ -5,10 +5,10 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from app.constants import STUDENT_LOGIN_PAGE_PATH, STUDENT_HOME_PAGE
-from app.decorator.approved_request_required_decorator import approved_request_required
-from app.scholarship.scholarship_dao import have_approved_request
-from app.tasks.tasks_dao import get_tasks, get_task_by_id, progress_task
-from app.volunteer.voulnteer_hours_dao import create_new_volunteer_hours, get_volunteer_hours
+from app.services.decorator.approved_request_required_decorator import approved_request_required
+from app.services.scholarship.scholarship_dao import have_approved_request
+from app.services.tasks.tasks_dao import get_tasks, get_task_by_id, progress_task
+from app.services.volunteer.voulnteer_hours_dao import create_new_volunteer_hours, get_volunteer_hours
 
 
 @login_required(login_url=STUDENT_LOGIN_PAGE_PATH)

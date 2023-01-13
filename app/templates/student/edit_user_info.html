@@ -1,8 +1,8 @@
 {% extends "student/base.html" %}
 {% block title %}Personal Info{% endblock %}
 {% block breadcrumb %}
-<a style="float: left; outline: none;" disabled>-></a>
-<a id="tasks-breadcrumb" href="/student/personal_info/" style="float: left;">Personal Info</a>
+<a disabled style="float: left; outline: none;">-></a>
+<a href="/student/personal_info/" id="tasks-breadcrumb" style="float: left;">Personal Info</a>
 {% endblock %}
 {% block content %}
 <!--{% load static %}-->
@@ -10,10 +10,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
     <link
-            rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+            rel="stylesheet"
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <title>Student Personal Info</title>
@@ -27,93 +27,93 @@
     >
         <strong>Message:</strong> {{ message }}
         <button
-                type="button"
+                aria-label="Close"
                 class="close"
                 data-dismiss="alert"
-                aria-label="Close"
+                type="button"
         >
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     {% endfor %}
-    <form method="post" action="/student/personal_info/">
+    <form action="/student/personal_info/" method="post">
         <h6 style="color:red"> {% if error %}<span>{{ error }}</span>{% endif %}</h6>
         {% csrf_token %}
-        <div id="username-form" class="form-group">
+        <div class="form-group" id="username-form">
             <label for="username">Username</label>
             <input
-                    type="text"
                     class="form-control"
+                    disabled="true"
                     id="username"
                     name="username"
-                    value="{{user.username}}"
-                    disabled="true"
                     placeholder="Create A Username (use only letters and numbers)"
                     required
+                    type="text"
+                    value="{{user.username}}"
             />
         </div>
         <div class="form-group">
             <label for="fname">First Name</label>
             <input
-                    type="text"
                     class="form-control"
+                    disabled
                     id="fname"
                     name="fname"
-                    value="{{user.first_name}}"
                     placeholder="Enter Your First Name"
                     required
-                    disabled
+                    type="text"
+                    value="{{user.first_name}}"
             />
         </div>
         <div class="form-group">
             <label for="lname">Last Name</label>
             <input
-                    type="text"
                     class="form-control"
+                    disabled
                     id="lname"
                     name="lname"
-                    value="{{user.last_name}}"
                     placeholder="Enter Your Last Name"
                     required
-                    disabled
+                    type="text"
+                    value="{{user.last_name}}"
             />
         </div>
-        <div id="email-form" class="form-group">
+        <div class="form-group" id="email-form">
             <label for="email">Email</label>
             <input
-                    type="email"
-                    value="{{user.email}}"
                     class="form-control"
+                    disabled="true"
                     id="email"
                     name="email"
-                    disabled="true"
                     placeholder="Enter Your Email Address"
                     required
+                    type="email"
+                    value="{{user.email}}"
             />
         </div>
-        <div id="pass1form" class="form-group" hidden>
+        <div class="form-group" hidden id="pass1form">
             <label for="pass1">Password</label>
             <input
-                    type="password"
                     class="form-control"
                     id="pass1"
                     name="pass1"
                     placeholder="Create Your Password"
+                    type="password"
             />
         </div>
-        <div id="pass2form" class="form-group" hidden>
+        <div class="form-group" hidden id="pass2form">
             <label for="pass2">Confirm Password</label>
             <input
-                    type="password"
                     class="form-control"
                     id="pass2"
                     name="pass2"
                     placeholder="Confirm Your Password"
+                    type="password"
             />
         </div>
-        <button id="edit-button" type="button" onclick="enableEdit()">Edit</button>
+        <button id="edit-button" onclick="enableEdit()" type="button">Edit</button>
         <button hidden id="update-Button" type="submit">Update</button>
-        <button hidden id="cancel-Button" type="button" onclick="disableEdit()">Cancel</button>
+        <button hidden id="cancel-Button" onclick="disableEdit()" type="button">Cancel</button>
 
     </form>
 </div>

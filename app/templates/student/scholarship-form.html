@@ -2,79 +2,79 @@
 {% block title %}Request Scholarship{% endblock %}
 
 {% block breadcrumb %}
-<a style="float: left; outline: none;" disabled>-></a>
-<a id="scholarship-breadcrumb" href="/student/scholarship/create/" style="float: left;">Request Scholarship</a>
+<a disabled style="float: left; outline: none;">-></a>
+<a href="/student/scholarship/create/" id="scholarship-breadcrumb" style="float: left;">Request Scholarship</a>
 {% endblock %}
 
 {% block content %}
 <br/>
-<form id="scholarship-form" method="post" action="/student/scholarship/submit/">
+<form action="/student/scholarship/submit/" id="scholarship-form" method="post">
     {% csrf_token %}
     <div class="form-group">
         <label for="degree-year">Degree Year</label>
         <select class="form-control" id="degree-year" name="degree_year" required>
-            <option value="" disabled selected>Select your degree year</option>
+            <option disabled selected value="">Select your degree year</option>
             {% for year in DEGREE_YEAR_CHOICES %}
             <option value="{{ year.0 }}">{{ year.1 }}</option>
             {% endfor %}
         </select>
-        <div id="degree-year-error" class="error"></div>
+        <div class="error" id="degree-year-error"></div>
     </div>
     <div class="form-group">
         <label for="age">Age</label>
-        <input type="number" class="form-control" id="age" name="age" min="18" max="100" required>
-        <div id="age-error" class="error"></div>
+        <input class="form-control" id="age" max="100" min="18" name="age" required type="number">
+        <div class="error" id="age-error"></div>
     </div>
     <div class="form-group">
         <label for="financial-situation">Financial Situation</label>
         <select class="form-control" id="financial-situation" name="financial_situation" required>
-            <option value="" disabled selected>Select your financial situation</option>
+            <option disabled selected value="">Select your financial situation</option>
             {% for situation in FINANCIAL_SITUATION_CHOICES %}
             <option value="{{ situation.0 }}">{{ situation.1 }}</option>
             {% endfor %}
         </select>
-        <div id="financial-situation-error" class="error"></div>
+        <div class="error" id="financial-situation-error"></div>
     </div>
     <div class="form-group">
         <label for="parent-work">Do your parents work?</label>
         <select class="form-control" id="parent-work" name="parent_work" required>
-            <option value="" disabled selected>Select yes or no</option>
+            <option disabled selected value="">Select yes or no</option>
             {% for choice in YES_NO_CHOICES %}
             <option value="{{ choice.0 }}">{{ choice.1 }}</option>
             {% endfor %}
         </select>
-        <div id="parent-work-error" class="error"></div>
+        <div class="error" id="parent-work-error"></div>
     </div>
     <div class="form-group">
         <label for="special-needs">Do you have special needs?</label>
         <select class="form-control" id="special-needs" name="special_needs" required>
-            <option value="" disabled selected>Select yes or no</option>
+            <option disabled selected value="">Select yes or no</option>
             {% for choice in YES_NO_CHOICES %}
             <option value="{{ choice.0 }}">{{ choice.1 }}</option>
             {% endfor %}
         </select>
-        <div id="special-needs-error" class="error"></div>
+        <div class="error" id="special-needs-error"></div>
     </div>
     <div class="form-group">
         <label for="tenant">Are you a tenant?</label>
         <select class="form-control" id="tenant" name="tenant" required>
-            <option value="" disabled selected>Select yes or no</option>
+            <option disabled selected value="">Select yes or no</option>
             {% for choice in YES_NO_CHOICES %}
             <option value="{{ choice.0 }}">{{ choice.1 }}</option>
             {% endfor %}
         </select>
-        <div id="tenant-error" class="error"></div>
+        <div class="error" id="tenant-error"></div>
     </div>
     <div class="form-group">
         <label for="volunteer">
-            <input type="checkbox" id="volunteer" name="volunteer" required>
+            <input id="volunteer" name="volunteer" required type="checkbox">
             I agree to volunteer.
         </label>
-        <div id="volunteer-error" class="error"></div>
+        <div class="error" id="volunteer-error"></div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit Request</button>
-    <input type="button" id="cancel-button" value="Cancel" onclick="window.location.href='/student/';"
-           class="btn btn-secondary">
+    <button class="btn btn-primary" type="submit">Submit Request</button>
+    <input class="btn btn-secondary" id="cancel-button" onclick="window.location.href='/student/';" type="button"
+           value="Cancel">
 </form>
 
 <script>

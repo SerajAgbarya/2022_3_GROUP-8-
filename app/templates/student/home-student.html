@@ -38,35 +38,35 @@
 </head>
 <table>
     <br/>
-    <tr onclick="window.location.href='/student/scholarship/';" class="clickable-row">
+    <tr class="clickable-row" onclick="window.location.href='/student/scholarship/';">
         <td>
             {% if have_request %}
             <div class="col-6">
                 <div class="square">
                     <h1 class="title">View Scholarship Request</h1>
-                    <img src="{% static 'images/scholarships.jpg.webp' %}"
-                         alt="View Scholarship Request">
+                    <img alt="View Scholarship Request"
+                         src="{% static 'images/scholarships.jpg.webp' %}">
                 </div>
             </div>
             {% else %}
             <div class="col-6">
                 <div class="square">
                     <h1 class="title">Request Scholarship</h1>
-                    <img src="{% static 'images/scholarships.jpg.webp' %}"
-                         alt="Request Scholarship">
+                    <img alt="Request Scholarship"
+                         src="{% static 'images/scholarships.jpg.webp' %}">
                 </div>
             </div>
             {% endif %}
         </td>
     </tr>
-    <tr onclick="window.location.href='/student/task/';" class="clickable-row">
+    <tr class="clickable-row" onclick="window.location.href='/student/task/';">
         <td>
             {% if request_approved %}
             <div class="col-6">
                 <div class="square">
                     <h1 class="title">My Tasks</h1>
-                    <img class="img" src="{% static 'images/tasks.png' %}"
-                         alt="Tasks">
+                    <img alt="Tasks" class="img"
+                         src="{% static 'images/tasks.png' %}">
 
                 </div>
             </div>
@@ -74,26 +74,26 @@
         </td>
     </tr>
 
-    <tr onclick="window.location.href='/student/volunteer/';" class="clickable-row">
+    <tr class="clickable-row" onclick="window.location.href='/student/volunteer/';">
         <td>
             {% if request_approved %}
             <div class="col-6">
                 <div class="square">
                     <h1 class="title">My Volunteer Details</h1>
-                    <img src="{% static 'images/volunteer.jpeg' %}"
-                         alt="My Volunteer Details">
+                    <img alt="My Volunteer Details"
+                         src="{% static 'images/volunteer.jpeg' %}">
                 </div>
             </div>
             {% endif %}
         </td>
     </tr>
-    <tr onclick="window.location.href='/student/personal_info/';" class="clickable-row">
+    <tr class="clickable-row" onclick="window.location.href='/student/personal_info/';">
         <td>
             <div class="col-6">
                 <div class="square">
                     <h1 class="title">Personal Info</h1>
-                    <img src="{% static 'images/personal_info.jpeg' %}"
-                         alt="Personal Info">
+                    <img alt="Personal Info"
+                         src="{% static 'images/personal_info.jpeg' %}">
                 </div>
             </div>
         </td>

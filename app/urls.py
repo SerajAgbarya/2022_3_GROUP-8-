@@ -2,12 +2,12 @@ from django.urls import path
 
 from members import views as v1
 from . import views
-from .icons import icons
-from .scholarship import scholarship
-from .signIn import logout
-from .tasks import tasks
-from .user import user_info
-from .volunteer import volunteer_hours
+from .services.home import student_main_service
+from .services.scholarship import scholarship_services
+from .services.signIn import logout_services
+from .services.tasks import tasks_services
+from .services.user import user_info_services
+from .services.volunteer import volunteer_hours_services
 
 urlpatterns = [
     path('', views.main, name='home'),
@@ -17,22 +17,19 @@ urlpatterns = [
     path('worker-signup', views.worker_signup, name='worker_signup'),
     path('worker-signin', views.worker_signin, name='worker_signin'),
 
-    # Icons & Images
-    path('icons/user-icon.png', icons.get_student_user_icon, name='student_user_icon'),
-
     # student urls
-    path('student/', views.student_home_page, name='student_home_page'),
+    path('student/', student_main_service.student_home_page, name='student_home_page'),
     path('student/signup/', views.student_signup, name='student_signup'),
     path('student/signin/', views.student_signin, name='student_signin'),
-    path('student/logout/', logout.student_logout, name='student_logout'),
-    path('student/scholarship/submit/', scholarship.submit_scholarship_reqeust, name='submit_scholarship'),
-    path('student/scholarship/create/', scholarship.scholarship_form, name='scholarship_form'),
-    path('student/scholarship/', scholarship.scholarship_view, name='scholarship_view'),
-    path('student/scholarship/edit/', scholarship.scholarship_view, name='scholarship_view'),  # TODO handle edit
-    path('student/task/', tasks.student_task_page, name='student_task'),
-    path('student/volunteer/', volunteer_hours.student_volunteer_page, name='student_voulunteer'),
-    path('student/volunteer/save/', volunteer_hours.student_save_volunteer, name='student_save_volunteer'),
-    path('student/personal_info/', user_info.edit_student_personal_info, name='edit_student_personal_info'),
+    path('student/logout/', logout_services.student_logout, name='student_logout'),
+    path('student/scholarship/submit/', scholarship_services.submit_scholarship_reqeust, name='submit_scholarship'),
+    path('student/scholarship/create/', scholarship_services.scholarship_form, name='scholarship_form'),
+    path('student/scholarship/', scholarship_services.scholarship_view, name='scholarship_view'),
+    path('student/scholarship/edit/', scholarship_services.scholarship_view, name='scholarship_edit'),
+    path('student/task/', tasks_services.student_task_page, name='student_task'),
+    path('student/volunteer/', volunteer_hours_services.student_volunteer_page, name='student_voulunteer'),
+    path('student/volunteer/save/', volunteer_hours_services.student_save_volunteer, name='student_save_volunteer'),
+    path('student/personal_info/', user_info_services.edit_student_personal_info, name='edit_student_personal_info'),
 
     path('login_user', v1.login_user, name='login_user'),
 

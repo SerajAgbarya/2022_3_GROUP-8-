@@ -1,3 +1,4 @@
+# groups
 WORKER = 'WORKER'
 STUDENT = 'STUDENT'
 MANAGER = 'MANGER'

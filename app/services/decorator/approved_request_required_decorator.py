@@ -3,7 +3,7 @@ from functools import wraps
 from django.shortcuts import redirect
 
 from app.constants import STUDENT_HOME_PAGE
-from app.scholarship.scholarship_dao import have_approved_request
+from app.services.scholarship.scholarship_dao import have_approved_request
 
 
 def approved_request_required(view_func):

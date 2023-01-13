@@ -1,13 +1,13 @@
 {% extends "student/base.html" %}
 {% block title %}Scholarship{% endblock %}
 {% block breadcrumb %}
-<a style="float: left; outline: none;" disabled>-></a>
-<a id="scholarship-breadcrumb" href="/student/scholarship/" style="float: left;">Scholarship</a>
+<a disabled style="float: left; outline: none;">-></a>
+<a href="/student/scholarship/" id="scholarship-breadcrumb" style="float: left;">Scholarship</a>
 {% endblock %}
 
 {% block content %}
 
-<form id="scholarship-form" method="post" action="/student/scholarship/submit/">
+<form action="/student/scholarship/submit/" id="scholarship-form" method="post">
     <br/>
     <div class="progress-bar">
         <div class="bar-container">
@@ -35,10 +35,10 @@
     </div>
     <div class="form-group">
         <label for="degree-year">Degree Year</label>
-        <select class="form-control" id="degree-year" name="degree_year" disabled>
+        <select class="form-control" disabled id="degree-year" name="degree_year">
             {% for year in DEGREE_YEAR_CHOICES %}
             {% if year.0 == request.degree_year %}
-            <option value="{{ request.degree_year }}" selected>{{ request.degree_year }}</option>
+            <option selected value="{{ request.degree_year }}">{{ request.degree_year }}</option>
             {% else %}
             <option value="{{ year.0 }}">{{ year.1 }}</option>
             {% endif %}
@@ -47,15 +47,15 @@
     </div>
     <div class="form-group">
         <label for="age">Age</label>
-        <input type="number" class="form-control" id="age" name="age" min="18" max="100" disabled
+        <input class="form-control" disabled id="age" max="100" min="18" name="age" type="number"
                value="{{ request.age }}">
     </div>
     <div class="form-group">
         <label for="financial-situation">Financial Situation</label>
-        <select class="form-control" id="financial-situation" name="financial_situation" disabled>
+        <select class="form-control" disabled id="financial-situation" name="financial_situation">
             {% for situation in FINANCIAL_SITUATION_CHOICES %}
             {% if situation.0 == request.financial_situation %}
-            <option id="fco" value="{{ request.financial_situation }}" selected>{{ request.financial_situation }}
+            <option id="fco" selected value="{{ request.financial_situation }}">{{ request.financial_situation }}
             </option>
             {% else %}
             <option value="{{ situation.0 }}">{{ situation.1 }}</option>
@@ -65,10 +65,10 @@
     </div>
     <div class="form-group">
         <label for="parent-work">Do your parents work?</label>
-        <select class="form-control" id="parent-work" name="parent_work" disabled>
+        <select class="form-control" disabled id="parent-work" name="parent_work">
             {% for choice in YES_NO_CHOICES %}
             {% if choice.0 == request.parent_work %}
-            <option value="{{ request.parent_work }}" selected>{{ request.parent_work }}</option>
+            <option selected value="{{ request.parent_work }}">{{ request.parent_work }}</option>
             {% else %}
             <option value="{{ choice.0 }}">{{ choice.1 }}</option>
             {% endif%}
@@ -77,24 +77,24 @@
     </div>
     <div class="form-group">
         <label for="tenant">Are you a tenant?</label>
-        <select class="form-control" id="tenant" name="tenant" required disabled>
+        <select class="form-control" disabled id="tenant" name="tenant" required>
             {% for choice in YES_NO_CHOICES %}
             {% if choice.0 == request.tenant %}
-            <option value="{{ request.tenant }}" selected>{{ request.tenant }}</option>
+            <option selected value="{{ request.tenant }}">{{ request.tenant }}</option>
             {% else %}
             <option value="{{ choice.0 }}">{{ choice.1 }}</option>
             {% endif%}
             {% endfor %}
         </select>
-        <div id="tenant-error" class="error"></div>
+        <div class="error" id="tenant-error"></div>
     </div>
     <div class="form-group">
         <label for="special-needs">Do you have special needs?</label>
-        <select class="form-control" id="special-needs" name="special_needs" disabled>
+        <select class="form-control" disabled id="special-needs" name="special_needs">
 
             {% for choice in YES_NO_CHOICES %}
             {% if choice.0 == request.special_needs %}
-            <option value="{{ request.special_needs }}" selected>{{ request.special_needs }}</option>
+            <option selected value="{{ request.special_needs }}">{{ request.special_needs }}</option>
             {% else %}
             <option value="{{ choice.0 }}">{{ choice.1 }}</option>
             {% endif%}
@@ -102,10 +102,10 @@
         </select>
     </div>
     <br/>
-    <button type="button" id="edit-button" onclick="enableEdit()">Edit</button>
-    <button type="submit" id="submit-button" hidden>Submit</button>
-    <input type="button" id="cancel-button" value="Cancel" onclick="disableEdit()"
-           class="btn btn-secondary" hidden>
+    <button id="edit-button" onclick="enableEdit()" type="button">Edit</button>
+    <button hidden id="submit-button" type="submit">Submit</button>
+    <input class="btn btn-secondary" hidden id="cancel-button" onclick="disableEdit()"
+           type="button" value="Cancel">
 </form>
 <script>
     function enableEdit() {

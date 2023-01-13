@@ -33,3 +33,5 @@ def edit_student_personal_info(request):
         return redirect('../../')
 
     return render(request, 'student/edit_user_info.html', context)
+
+
