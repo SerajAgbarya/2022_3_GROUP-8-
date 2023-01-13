@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+{% extends "student/base.html" %}
+{% block title %}Scholarship{% endblock %}
+{% block breadcrumb %}
+<a style="float: left; outline: none;" disabled>-></a>
+<a id="scholarship-breadcrumb" href="/student/scholarship/" style="float: left;">Scholarship</a>
+{% endblock %}
+{% block content %}
 <html>
 <head>
     <style>
@@ -106,6 +112,7 @@
 </head>
 <body>
 <form id="scholarship-form" method="post" action="/student/scholarship/submit/">
+    <br/>
     <div class="progress-bar">
         <div class="bar-container">
             <div class="bar" style="width: 100%"></div>
@@ -152,7 +159,8 @@
         <select class="form-control" id="financial-situation" name="financial_situation" disabled>
             {% for situation in FINANCIAL_SITUATION_CHOICES %}
             {% if situation.0 == request.financial_situation %}
-            <option value="{{ request.financial_situation }}" selected>{{ request.financial_situation }}</option>
+            <option id="fco" value="{{ request.financial_situation }}" selected>{{ request.financial_situation }}
+            </option>
             {% else %}
             <option value="{{ situation.0 }}">{{ situation.1 }}</option>
             {% endif%}
@@ -197,12 +205,11 @@
             {% endfor %}
         </select>
     </div>
+    <br/>
     <button type="button" id="edit-button" onclick="enableEdit()">Edit</button>
     <button type="submit" id="submit-button" hidden>Submit</button>
-    <input type="button" id="cancel-button" value="Cancel" onclick="window.location.href='/student/';"
+    <input type="button" id="cancel-button" value="Cancel" onclick="disableEdit()"
            class="btn btn-secondary" hidden>
-    <input type="button" id="cancel-button2" value="Cancel" onclick="window.location.href='/student/';"
-           class="btn btn-secondary">
 </form>
 <script>
     function enableEdit() {
@@ -215,22 +222,40 @@
         document.getElementById("submit-button").hidden = false;
         document.getElementById("edit-button").hidden = true;
         document.getElementById("cancel-button").hidden = false;
-        document.getElementById("cancel-button2").hidden = true;
+    }
+
+    function disableEdit() {
+        document.getElementById("degree-year").disabled = true;
+        document.getElementById("age").disabled = true;
+        document.getElementById("financial-situation").disabled = true;
+        document.getElementById("parent-work").disabled = true;
+        document.getElementById("special-needs").disabled = true;
+        document.getElementById("tenant").disabled = true;
+        document.getElementById("submit-button").hidden = true;
+        document.getElementById("edit-button").hidden = false;
+        document.getElementById("cancel-button").hidden = true;
+
+        document.getElementById("degree-year").value = "{{request.degree_year}}";
+        document.getElementById("age").value = "{{request.age}}";
+        document.getElementById("financial-situation").value = "{{request.financial_situation}}";
+        document.getElementById("parent-work").value = "{{request.parent_work}}";
+        document.getElementById("special-needs").value = "{{request.special_needs}}";
+        document.getElementById("tenant").value = "{{request.tenant}}";
     }
 
     let status = "{{ request.status }}";
     let bar = document.querySelector('.bar');
 
-    if(status === 'PENDING') {
+    if (status === 'PENDING') {
         bar.style.width = '10%';
         bar.style.background = 'gray';
-    } else if(status === 'UNDER_REVIEW') {
+    } else if (status === 'UNDER_REVIEW') {
         bar.style.width = '50%';
         bar.style.background = 'blue';
-    } else if(status === 'APPROVED') {
+    } else if (status === 'APPROVED') {
         bar.style.width = '100%';
         bar.style.background = 'green';
-    } else if(status === 'REJECTED') {
+    } else if (status === 'REJECTED') {
         bar.style.width = '100%';
         bar.style.background = 'red';
     }
@@ -238,3 +263,4 @@
 </script>
 </body>
 </html>
+{% endblock %}

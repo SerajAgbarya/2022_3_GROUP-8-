@@ -1,3 +1,10 @@
+{% extends "student/base.html" %}
+{% block title %}Volunteer Hours{% endblock %}
+{% block breadcrumb %}
+<a style="float: left; outline: none;" disabled>-></a>
+<a id="tasks-breadcrumb" href="/student/volunteer/" style="float: left;">Volunteer Hours</a>
+{% endblock %}
+{% block content %}
 <html>
 <head>
     <style>
@@ -118,38 +125,19 @@
         <input type="button" value="Cancel" onclick="closeForm()">
     </form>
 </div>
-<!-- Add JavaScript to show and close the form pop-up -->
 <script>
-    // Get the create button and form pop-up
     const createBtn = document.querySelector(".create-button");
     const formPopup = document.querySelector(".form-popup");
 
-    // When the create button is clicked, show the form pop-up
     createBtn.addEventListener("click", function() {
         formPopup.style.display = "block";
     });
 
-    // When the close button is clicked, close the form pop-up
     function closeForm() {
         formPopup.style.display = "none";
     }
-
-    // Bind an event handler to the submit event of the form
-    // form.addEventListener('submit', function(event) {
-    //     event.preventDefault();
-    //
-    //     // Get the values of the form fields
-    //     const date = document.getElementById('date').value;
-    //     const hours = document.getElementById('hours').value;
-    //     const task = document.getElementById('task').value;
-    //
-    //     // Make an AJAX request to the server to save the volunteer hours
-    //     const xhr = new XMLHttpRequest();
-    //     xhr.open('POST', 'student/volunteer/save/');
-    //     xhr.setRequestHeader('Content-Type', 'application/json');
-    //     xhr.send(JSON.stringify({ date: date, hours: hours, task: task }));
-    // });
 </script>
 </body>
 </html>
 
+{% endblock %}

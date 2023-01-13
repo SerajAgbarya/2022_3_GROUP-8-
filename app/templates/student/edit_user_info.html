@@ -1,111 +1,152 @@
-{% load static %}
+{% extends "student/base.html" %}
+{% block title %}Personal Info{% endblock %}
+{% block breadcrumb %}
+<a style="float: left; outline: none;" disabled>-></a>
+<a id="tasks-breadcrumb" href="/student/personal_info/" style="float: left;">Personal Info</a>
+{% endblock %}
+{% block content %}
+<!--{% load static %}-->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'style.css' %}" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Student Personal Info</title>
-  </head>
-  <body style="padding: 100px 200px">
+</head>
+<body>
+<div style="padding: 100px 200px">
     {% for message in messages %}
     <div
-      class="alert alert-{{ message.tags }} alert-dismissible fade show"
-      role="alert"
+            class="alert alert-{{ message.tags }} alert-dismissible fade show"
+            role="alert"
     >
-      <strong>Message:</strong> {{ message }}
-      <button
-        type="button"
-        class="close"
-        data-dismiss="alert"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
+        <strong>Message:</strong> {{ message }}
+        <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Close"
+        >
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     {% endfor %}
     <form method="post" action="/student/personal_info/">
-      <h6 style="color:red"> {% if error %}<span>{{ error }}</span>{% endif %}</h6>
-      {% csrf_token %}
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input
-                type="text"
-                class="form-control"
-                id="username"
-                name="username"
-                value="{{user.username}}"
-                disabled="true"
-                placeholder="Create A Username (use only letters and numbers)"
-                required
-        />
-      </div>
-      <div class="form-group">
-        <label for="fname">First Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="fname"
-          name="fname"
-          value="{{user.first_name}}"
-          placeholder="Enter Your First Name"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="lname">Last Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="lname"
-          name="lname"
-          value="{{user.last_name}}"
-          placeholder="Enter Your Last Name"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          value="{{user.email}}"
-          class="form-control"
-          id="email"
-          name="email"
-          disabled="true"
-          placeholder="Enter Your Email Address"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="pass1">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          id="pass1"
-          name="pass1"
-          placeholder="Create Your Password"
-        />
-      </div>
-      <div class="form-group">
-        <label for="pass2">Confirm Password</label>
-        <input
-          type="password"
-          class="form-control"
-          id="pass2"
-          name="pass2"
-          placeholder="Confirm Your Password"
-        />
-      </div>
-      <button type="submit" class="btn btn-primary">Update</button>
-      <input type="button" value="Cancel" onclick="window.location.href='/student/';" class="btn btn-secondary">
+        <h6 style="color:red"> {% if error %}<span>{{ error }}</span>{% endif %}</h6>
+        {% csrf_token %}
+        <div id="username-form" class="form-group">
+            <label for="username">Username</label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    name="username"
+                    value="{{user.username}}"
+                    disabled="true"
+                    placeholder="Create A Username (use only letters and numbers)"
+                    required
+            />
+        </div>
+        <div class="form-group">
+            <label for="fname">First Name</label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="fname"
+                    name="fname"
+                    value="{{user.first_name}}"
+                    placeholder="Enter Your First Name"
+                    required
+                    disabled
+            />
+        </div>
+        <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input
+                    type="text"
+                    class="form-control"
+                    id="lname"
+                    name="lname"
+                    value="{{user.last_name}}"
+                    placeholder="Enter Your Last Name"
+                    required
+                    disabled
+            />
+        </div>
+        <div id="email-form" class="form-group">
+            <label for="email">Email</label>
+            <input
+                    type="email"
+                    value="{{user.email}}"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    disabled="true"
+                    placeholder="Enter Your Email Address"
+                    required
+            />
+        </div>
+        <div id="pass1form" class="form-group" hidden>
+            <label for="pass1">Password</label>
+            <input
+                    type="password"
+                    class="form-control"
+                    id="pass1"
+                    name="pass1"
+                    placeholder="Create Your Password"
+            />
+        </div>
+        <div id="pass2form" class="form-group" hidden>
+            <label for="pass2">Confirm Password</label>
+            <input
+                    type="password"
+                    class="form-control"
+                    id="pass2"
+                    name="pass2"
+                    placeholder="Confirm Your Password"
+            />
+        </div>
+        <button id="edit-button" type="button" onclick="enableEdit()">Edit</button>
+        <button hidden id="update-Button" type="submit">Update</button>
+        <button hidden id="cancel-Button" type="button" onclick="disableEdit()">Cancel</button>
+
     </form>
-  </body>
+</div>
+</body>
 </html>
+
+<script>
+    function enableEdit() {
+        document.getElementById("edit-button").hidden = true;
+        document.getElementById("cancel-Button").hidden = false;
+        document.getElementById("update-Button").hidden = false;
+        document.getElementById("pass1form").hidden = false;
+        document.getElementById("pass2form").hidden = false;
+        document.getElementById("lname").disabled = false;
+        document.getElementById("fname").disabled = false;
+        // document.getElementById("email-form").hidden = true;
+        // document.getElementById("username-form").hidden = true;
+    }
+    function disableEdit() {
+        document.getElementById("edit-button").hidden = false;
+        document.getElementById("cancel-Button").hidden = true;
+        document.getElementById("update-Button").hidden = true;
+        document.getElementById("pass1form").hidden = true;
+        document.getElementById("pass2form").hidden = true;
+
+        document.getElementById("lname").disabled = true;
+        document.getElementById("lname").value = "{{user.last_name}}"
+        document.getElementById("fname").disabled = true;
+        document.getElementById("fname").value = "{{user.first_name}}"
+
+        // document.getElementById("email-form").hidden = false;
+        // document.getElementById("username-form").hidden = false;
+    }
+</script>
+{% endblock %}

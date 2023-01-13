@@ -10,6 +10,7 @@
           integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
           crossorigin="anonymous"/>
     <meta name="robots" content="NONE,NOARCHIVE">
+
 </head>
 <body>
 <!--<nav>-->
@@ -20,20 +21,23 @@
 <div id="container">
     <div id="header">
         <div id="branding" style="margin: 0 auto; justify-content: center">
-            <h1 id="site-name2"><a href="/admin/">CDFI Enterprise</a></h1>
+            <h1 id="site-name2">CDFI Enterprise</h1>
         </div>
     </div>
     <div class="breadcrumbs">
         <a id="home" href="/student/" style="float: left;">Home</a>
-        <a id="logout" href="/student/logout/" style="float: right;">LogOut</a>
+        {% block breadcrumb %}{% endblock %}
+        <div style="float: right">
+            <label>({{user.username}})</label>
+            <a id="logout" href="/student/logout/">LogOut</a>
+        </div>
     </div>
-<!--    <div class="main shifted" id="main">-->
+    <!--    <div class="main shifted" id="main">-->
     <div/>
     {% block content %}{% endblock %}
     <div>
-<!--    </div>-->
-</div>
-
+        <!--    </div>-->
+    </div>
 
 
 </body>
