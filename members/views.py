@@ -22,23 +22,33 @@ def index(request):
 
 
 def login_user(request):
+    context = {}
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            messages.success(request, ("Login success  "))
-            # Redirect to a success page.
-            return render(request, 'first.html')
+        all_users = User.objects.all()
+        manager = []
+        group = Group.objects.get(name='MANAGER')
 
+        if user is not None:
+            if  group in user.groups.all():
+                login(request, user)
+                messages.success(request, ("Login success  "))
+                # Redirect to a success page.
+                return render(request, 'first.html')
+            else:
+                context["login_error"] = f"You dont have permission to login as Manager"
+                template = loader.get_template('login.html')
+                return HttpResponse(template.render(context, request))
         else:
             # Return an 'invalid login' error message. stay on the same page
+            context["login_error"] = "Bad Credentials!!"
             messages.success(request, ("There was An Error Logging In , try Again...  "))
             return render(request, 'login.html')
     else:
         template = loader.get_template('login.html')
-        return HttpResponse(template.render({}, request))
+        return HttpResponse(template.render(context, request))
 
 
 @login_required
