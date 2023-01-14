@@ -195,6 +195,8 @@ def logout_worker(request):
     logout(request)
     messages.success(request, ("You , Were logged out...  "))
     return redirect('worker_login')
+def home_pageworker(request):
+    return render(request, 'home-worker.html')
 
 
 def worker_login(request):
@@ -211,9 +213,9 @@ def worker_login(request):
         else:
             # Return an 'invalid login' error message. stay on the same page
             messages.success(request, ("There was An Error Logging In , try Again...  "))
-            return render(request, 'login.html')
+            return render(request, 'worker-sign-in.html')
     else:
-        template = loader.get_template('login.html')
+        template = loader.get_template('worker-sign-in.html')
         return HttpResponse(template.render({}, request))
 
 
@@ -230,6 +232,11 @@ def student_list(request):
         user = User.objects.get(pk=user_id)
         if action == 'activate':
             user.is_active = True
+            subject = "Accepted for CDFI Bank!"
+            message = "Hello " + user.first_name + "!! \n" + "Welcome to CDFI system! \n You now active in CDFI Bank. \n You can to enter to the website as a STUDENT ."
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [user.email]
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
             user.save()
             messages.success(request, (f"{user.username} has been activated"))
 

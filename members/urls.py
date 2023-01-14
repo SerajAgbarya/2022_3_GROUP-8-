@@ -20,5 +20,7 @@ urlpatterns = [
     path('add_workhours', views.add_workhours, name='add_workhours'),
     path('view_workhours', views.view_workhours, name='view_workhours'),
     path('delete_workhours/<int:pk>/', views.delete_workhours, name='delete_workhours'),
+    path('home_pageworker', views.home_pageworker, name='home_pageworker'),
+
 
 ]
