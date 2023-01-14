@@ -2,7 +2,8 @@ from django.test import TestCase
 from django.urls import reverse
 
 from app.models import ScholarshipRequest
-from app.tests.test_utils import get_scholarship_request_form, delete_scholarship_request, create_student
+from app.tests.test_utils import get_scholarship_request_form, delete_scholarship_request, create_student, \
+    create_scholarship_request
 
 PASSWORD = 'testpassword'
 USER_NAME = 'testuser'
@@ -45,6 +46,7 @@ class SubmitScholarshipRequestTest(TestCase):
         self.assertIn('YES_NO_CHOICES', response.context)
 
     def test_scholarship_view_and_edit(self):
+        scholarship_request = create_scholarship_request(self.user)
         response = self.client.get(reverse('scholarship_view_edit'))
 
         # Assert that the request was successful
@@ -55,7 +57,7 @@ class SubmitScholarshipRequestTest(TestCase):
 
         # Assert that the context contains the expected variables
         self.assertIn('request', response.context)
-        self.assertEqual(response.context['request'], None)
+        self.assertEqual(response.context['request'], scholarship_request)
         self.assertIn('DEGREE_YEAR_CHOICES', response.context)
         self.assertIn('FINANCIAL_SITUATION_CHOICES', response.context)
         self.assertIn('YES_NO_CHOICES', response.context)
