@@ -34,7 +34,7 @@
     2. run `python3 manage.py migrate app zero --fake`
     3. run migration again `python3 manage.py migrate`
 
-## Unit Tests:
+## Unit Tests: 
 
 1. run tests for app module `python3 manage.py test app.tests --settings=cdfi.settings`
 
