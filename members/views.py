@@ -107,11 +107,11 @@ def transfer_to_worker(request):
         user = User.objects.get(pk=user_id)
         if action == 'transfer':
             subject = "Salary!"
-            message = "Hello " + user.first_name + "!! \n" + "Welcome to CDFI system! \nThank you for Working with us\n. We have sent you a salay for this month.\nPleas come to our ofic to take your salary ."
+            message = "Hello " + user.first_name + "!! \n" + "Welcome to CDFI system! \nThank you for Working with us\n. We have sent you a salay for this month.\nPleas check your acount."
             from_email = settings.EMAIL_HOST_USER
             to_list = [user.email]
             send_mail(subject, message, from_email, to_list, fail_silently=True)
-            messages.success(request, (f"money has been transfered"))
+            messages.success(request, (f"money has been transfered to "+user.first_name+" "+user.last_name))
 
         return HttpResponseRedirect(request.path_info)
 
