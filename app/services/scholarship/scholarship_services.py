@@ -6,7 +6,8 @@ from app.constants import STUDENT_LOGIN_PAGE_PATH, YES_SMALL, FINANCIAL_SITUATIO
     NO_YES_CHOICES, ON_SMALL
 from app.models import ScholarshipRequest, PointsByYear, PointsByAge, PointsByFinancialSituation, PointsByParentWork, \
     PointsBySpecialNeeds, PointsByTenant
-from app.services.scholarship.scholarship_dao import get_scholarship_request, create_scholarship_request
+from app.services.scholarship.scholarship_dao import get_scholarship_request, create_scholarship_request, \
+    update_scholarship_request_entity
 
 
 @login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
@@ -27,19 +28,16 @@ def submit_scholarship_reqeust(request):
                 messages.error(request, f'Your request cant be accomplished, Volunteer is required!')
                 return redirect('../../')
 
-        scholar_ship_request.degree_year = int(form_data['degree_year'])
-        scholar_ship_request.age = form_data['age']
-        scholar_ship_request.financial_situation = form_data['financial_situation']
-        scholar_ship_request.parent_work = form_data['parent_work']
-        scholar_ship_request.special_needs = form_data['special_needs']
-        scholar_ship_request.tenant = form_data['tenant']
-        scholar_ship_request.user_id = current_user
-        scholar_ship_request.save()
+        update_scholarship_request_entity(current_user, form_data, scholar_ship_request)
         calculate_points(scholar_ship_request)
+        scholar_ship_request.save()
         messages.success(request, f'Your request has been {msg} successfully')
         return redirect('../../')
     else:
         return scholarship_form(request)
+
+
+
 
 
 @login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
@@ -128,4 +126,3 @@ def calculate_points(scholar_ship_request):
         points += get_points_by_special_needs(scholar_ship_request.special_needs)
         points += get_points_by_tenant(scholar_ship_request.tenant)
     scholar_ship_request.points = points
-    scholar_ship_request.save()

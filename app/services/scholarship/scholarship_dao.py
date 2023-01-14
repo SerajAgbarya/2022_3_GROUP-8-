@@ -24,3 +24,17 @@ def have_approved_request(current_user):
 
 def create_scholarship_request():
     return ScholarshipRequest()
+
+
+def update_scholarship_request_entity(current_user, form_data, scholar_ship_request):
+    keys_to_check = ['degree_year', 'age', 'financial_situation', 'parent_work', 'special_needs', 'tenant']
+    if all(key in form_data for key in keys_to_check):
+        scholar_ship_request.degree_year = int(form_data['degree_year'])
+        scholar_ship_request.age = int(form_data['age'])
+        scholar_ship_request.financial_situation = form_data['financial_situation']
+        scholar_ship_request.parent_work = form_data['parent_work']
+        scholar_ship_request.special_needs = form_data['special_needs']
+        scholar_ship_request.tenant = form_data['tenant']
+        scholar_ship_request.user_id = current_user
+    else:
+        raise ValueError('missing mandatory keys')

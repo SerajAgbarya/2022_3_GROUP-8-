@@ -27,7 +27,7 @@ urlpatterns = [
     path('student/scholarship/', scholarship_services.scholarship_view, name='scholarship_view'),
     path('student/scholarship/edit/', scholarship_services.scholarship_view, name='scholarship_edit'),
     path('student/task/', tasks_services.student_task_page, name='student_task'),
-    path('student/volunteer/', volunteer_hours_services.student_volunteer_page, name='student_voulunteer'),
+    path('student/volunteer/', volunteer_hours_services.student_volunteer_page, name='student_volunteer'),
     path('student/volunteer/save/', volunteer_hours_services.student_save_volunteer, name='student_save_volunteer'),
     path('student/personal_info/', user_info_services.edit_student_personal_info, name='edit_student_personal_info'),
 
