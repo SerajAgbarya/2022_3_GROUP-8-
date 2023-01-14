@@ -8,6 +8,7 @@
 {% block content %}
 
 <form action="/student/scholarship/submit/" id="scholarship-form" method="post">
+    {% csrf_token %}
     <br/>
     <div class="progress-bar">
         <div class="bar-container">
@@ -102,10 +103,12 @@
         </select>
     </div>
     <br/>
-    <button id="edit-button" onclick="enableEdit()" type="button">Edit</button>
-    <button hidden id="submit-button" type="submit">Submit</button>
-    <input class="btn btn-secondary" hidden id="cancel-button" onclick="disableEdit()"
+    {% if request.status != 'APPROVED' %}
+        <button id="edit-button" onclick="enableEdit()" type="button">Edit</button>
+        <button hidden id="submit-button" type="submit">Submit</button>
+        <input class="btn btn-secondary" hidden id="cancel-button" onclick="disableEdit()"
            type="button" value="Cancel">
+    {% endif %}
 </form>
 <script>
     function enableEdit() {

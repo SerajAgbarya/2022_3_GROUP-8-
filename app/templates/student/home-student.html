@@ -33,11 +33,45 @@
             background-color: #eeeeee;
         }
 
+        /* Add your CSS styles here */
+        .messages {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .messages li {
+            background-color: #ffffcc;
+            border: 1px solid #cccccc;
+            margin: 10px 0;
+            padding: 10px;
+        }
+
+        .messages .success {
+            background-color: #ccffcc;
+            border-color: #00cc00;
+        }
+
+        .messages .error {
+            background-color: #ccffcc;
+            border-color: #cc0000;
+        }
+
 
     </style>
 </head>
 <table>
     <br/>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li
+                %} %} class="{{ message.tags }}" endif if message.tags {% {%>{{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+    <br/>
+    {% endif %}
     <tr class="clickable-row" onclick="window.location.href='/student/scholarship/';">
         <td>
             {% if have_request %}

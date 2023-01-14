@@ -15,7 +15,7 @@ def get_task_by_id(task_id):
 
 
 def progress_task(task, hours):
-    if task is None or hours is None or hours < 0:
+    if task is None or hours is None or not hours.isdigit or int(hours) < 0:
         return
     task.completed_hours += int(hours)
     if task.status == Task.TO_DO:

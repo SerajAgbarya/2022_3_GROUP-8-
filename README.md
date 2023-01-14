@@ -10,10 +10,18 @@
 3. run ``
 
 #### Steps:
+#### if you download the system for first time:
+1. `python manage.py createsuperuser`
+2. `python manage.py migrate`
+3. `python manage.py runserver`
 
-1. `python3 manage.py createsuperuser`
-2. `python3 manage.py migrate`
-3. `python3 manage.py runserver`
+#### In case you face issues with migrate (due installing system more than once or in case you want to have start all from start:
+1. `python manage.py createsuperuser`
+2. `python  manage.py migrate members zero --fake`
+3. `python  manage.py migrate app zero --fake`
+4. `python manage.py migrate`
+5. `python manage.py runserver`
+
 
 #### notes:
 
@@ -29,6 +37,14 @@
 ## Unit Tests:
 
 1. run tests for app module `python3 manage.py test app.tests --settings=cdfi.settings`
+
+### Test Coverage 
+for app module test:
+1. run `pip install coverage` (or use pip3 based on what u have)
+2. run for example: `coverage run manage.py test app.tests --settings=cdfi.settings`
+3. to get results: run `coverage report` or `coverage html` 
+
+
 
 ## For new developments
 
