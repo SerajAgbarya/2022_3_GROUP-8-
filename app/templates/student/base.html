@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% load static %}
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
-    <link rel="stylesheet" type="text/css" href="/app/static/user_info_list.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    <link href="/static/admin/css/base.css" rel="stylesheet" type="text/css">
+    <meta content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport">
+    <link href="/static/admin/css/responsive.css" rel="stylesheet" type="text/css">
+    <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
           integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
-          crossorigin="anonymous"/>
-    <meta name="robots" content="NONE,NOARCHIVE">
+          rel="stylesheet"/>
+    <meta content="NONE,NOARCHIVE" name="robots">
+    <link href="{% static 'scholarship_from_edit.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'student_home_style.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'user_info_list.css' %}" rel="stylesheet" type="text/css">
 
 </head>
 <body>
-<!--<nav>-->
-<!--    <a href="/student/">Home</a>-->
-<!--    <a href="/student/personal_info/">Contact</a>-->
-<!--    <a href="/student/task/">Tasks</a>-->
-<!--</nav>-->
 <div id="container">
     <div id="header">
         <div id="branding" style="margin: 0 auto; justify-content: center">
@@ -25,18 +23,16 @@
         </div>
     </div>
     <div class="breadcrumbs">
-        <a id="home" href="/student/" style="float: left;">Home</a>
+        <a href="/student/" id="home" style="float: left;">Home</a>
         {% block breadcrumb %}{% endblock %}
         <div style="float: right">
             <label>({{user.username}})</label>
-            <a id="logout" href="/student/logout/">LogOut</a>
+            <a href="/student/logout/" id="logout">LogOut</a>
         </div>
     </div>
-    <!--    <div class="main shifted" id="main">-->
     <div/>
     {% block content %}{% endblock %}
     <div>
-        <!--    </div>-->
     </div>
 
 

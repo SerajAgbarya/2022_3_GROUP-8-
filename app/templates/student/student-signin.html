@@ -1,14 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" href="{% static 'style.css' %}"/>
-<link rel="stylesheet" href="{% static 'button.css' %}"/>
+<link href="{% static 'style.css' %}" rel="stylesheet"/>
+<link href="{% static 'button.css' %}" rel="stylesheet"/>
 <body>
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
     <li
-            {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
+            %} %} class="{{ message.tags }}" endif if message.tags {% {%>{{ message }}
     </li>
     {% endfor %}
 </ul>
@@ -16,36 +16,36 @@
 <div class="card-outer">
     <div class="card">
         <img
-                src="https://www.w3schools.com/howto/img_avatar.png"
                 alt="Avatar"
+                src="https://www.w3schools.com/howto/img_avatar.png"
                 style="width: 100%"
         />
-        <form action="/student/signin/" method="post" class="container">
+        <form action="/student/signin/" class="container" method="post">
             {% csrf_token %}
             <h4><b>Student sign in page</b></h4>
             <h6 style="color:red"> {% if login_error %}<span>{{ login_error }}</span>{% endif %}</h6>
             <p>
                 <input
-                        required
+                        class="textbox"
                         id="username"
                         name="username"
-                        class="textbox"
-                        type="text"
                         placeholder="Enter username"
+                        required
+                        type="text"
                 />
             </p>
             <p>
                 <input
-                        required
+                        class="textbox"
                         id="password"
                         name="password"
-                        class="textbox"
-                        type="text"
                         placeholder="Enter password"
+                        required
+                        type="text"
                 />
             </p>
             <p>
-                <input type="submit" class="btn log" value="Sign in"/>
+                <input class="btn log" type="submit" value="Sign in"/>
             </p>
 
         </form>
