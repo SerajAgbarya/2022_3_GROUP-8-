@@ -10,10 +10,18 @@
 3. run ``
 
 #### Steps:
+#### if you download the system for first time:
+1. `python manage.py createsuperuser`
+2. `python manage.py migrate`
+3. `python manage.py runserver`
 
-1. `python3 manage.py createsuperuser`
-2. `python3 manage.py migrate`
-3. `python3 manage.py runserver`
+#### In case you face issues with migrate (due installing system more than once or in case you want to have start all from start:
+1. `python manage.py createsuperuser`
+2. `python  manage.py migrate members zero --fake`
+3. `python  manage.py migrate app zero --fake`
+4. `python manage.py migrate`
+5. `python manage.py runserver`
+
 
 #### notes:
 
