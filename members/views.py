@@ -44,8 +44,10 @@ def login_user(request):
         else:
             # Return an 'invalid login' error message. stay on the same page
             context["login_error"] = "Bad Credentials!!"
-            messages.success(request, ("There was An Error Logging In , try Again...  "))
-            return render(request, 'login.html')
+            # messages.success(request, ("There was An Error Logging In , try Again...  "))
+            # return render(request, 'login.html')
+            template = loader.get_template('login.html')
+            return HttpResponse(template.render(context, request))
     else:
         template = loader.get_template('login.html')
         return HttpResponse(template.render(context, request))
