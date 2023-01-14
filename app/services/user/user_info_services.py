@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
 
-from app.constants import STUDENT_LOGIN_PAGE_PATH
+from app.constants import STUDENT_LOGIN_PAGE_PATH, STUDENT_HOME_PAGE
 
 
 @login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
@@ -30,7 +30,7 @@ def edit_student_personal_info(request):
                 myuser.password = new_pass
             myuser.save()
             messages.success(request, "Your personal info has been updated successfully!")
-        return redirect('../../')
+        return redirect(STUDENT_HOME_PAGE)
 
     return render(request, 'student/edit_user_info.html', context)
 
