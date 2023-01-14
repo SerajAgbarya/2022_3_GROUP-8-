@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 
 from app.constants import STUDENT, WORKER, GOOD_SMALL, YES_SMALL, NO_SMALL
-from app.models import ScholarshipRequest
+from app.models import ScholarshipRequest, Task
 
 
 def create_student(username='student1', password='student1'):
@@ -44,3 +44,18 @@ def get_scholarship_request_form():
 
 def delete_scholarship_request(user):
     ScholarshipRequest.objects.filter(user_id=user.id).delete()
+
+
+def create_task(user, worker, description='test desc'):
+    return Task.objects.create(
+        user_id=user,
+        worker_id=worker,
+        place='Test Place',
+        total_hours=10,
+        completed_hours=5,
+        description=description
+    )
+
+
+def delete_tasks(user):
+    Task.objects.filter(user_id=user.id).delete()
