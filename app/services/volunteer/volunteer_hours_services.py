@@ -12,11 +12,8 @@ from app.services.volunteer.voulnteer_hours_dao import create_new_volunteer_hour
 
 
 @login_required(login_url=STUDENT_LOGIN_PAGE_PATH)
+@approved_request_required
 def student_volunteer_page(request):
-    request_approved = have_approved_request(request.user)
-    if not request_approved:
-        return redirect(STUDENT_HOME_PAGE)
-
     user = request.user
     hours = get_volunteer_hours(user)
     tasks = get_tasks(user)

@@ -30,6 +30,13 @@
 
 1. run tests for app module `python3 manage.py test app.tests --settings=cdfi.settings`
 
+### Test Coverage 
+1. run `pip install coverage` (or use pip3 based on what u have)
+2. run for example: `coverage run manage.py test app.tests --settings=cdfi.settings`
+3. to get results: run `coverage report` or `coverage html` 
+
+
+
 ## For new developments
 
 ### Create New Model
