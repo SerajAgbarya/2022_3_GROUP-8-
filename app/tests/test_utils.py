@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 
 from app.constants import STUDENT, WORKER, GOOD_SMALL, YES_SMALL, NO_SMALL
-from app.models import ScholarshipRequest, Task
+from app.models import ScholarshipRequest, Task, VolunteerHours
 
 
 def create_student(username='student1', password='student1'):
@@ -59,3 +59,17 @@ def create_task(user, worker, description='test desc'):
 
 def delete_tasks(user):
     Task.objects.filter(user_id=user.id).delete()
+
+
+def create_volunteer_hours(user, task, date, hours):
+    return VolunteerHours.objects.create(date=date, hours=hours, task_id=task, user_id=user)
+
+
+def delete_volunteer_hours(user):
+    VolunteerHours.objects.filter(user_id=user.id).delete()
+
+
+def delete_all_user_info(user):
+    delete_tasks(user)
+    delete_scholarship_request(user)
+    delete_volunteer_hours(user)
