@@ -6,7 +6,7 @@ from app.constants import STUDENT_LOGIN_PAGE_PATH, YES_SMALL, FINANCIAL_SITUATIO
     NO_YES_CHOICES, ON_SMALL
 from app.models import ScholarshipRequest, PointsByYear, PointsByAge, PointsByFinancialSituation, PointsByParentWork, \
     PointsBySpecialNeeds, PointsByTenant
-from app.scholarship.scholarship_dao import get_scholarship_request, create_scholarship_request
+from app.services.scholarship.scholarship_dao import get_scholarship_request, create_scholarship_request
 
 
 @login_required(login_url=STUDENT_LOGIN_PAGE_PATH)

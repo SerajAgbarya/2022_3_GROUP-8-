@@ -1,14 +1,13 @@
 {% extends "student/base.html" %}
 {% block title %}Volunteer Hours{% endblock %}
 {% block breadcrumb %}
-<a style="float: left; outline: none;" disabled>-></a>
-<a id="tasks-breadcrumb" href="/student/volunteer/" style="float: left;">Volunteer Hours</a>
+<a disabled style="float: left; outline: none;">-></a>
+<a href="/student/volunteer/" id="tasks-breadcrumb" style="float: left;">Volunteer Hours</a>
 {% endblock %}
 {% block content %}
 <html>
 <head>
     <style>
-        /* Add your CSS styles here */
         .volunteer-hours-table {
             display: flex;
             flex-direction: column;
@@ -16,6 +15,7 @@
             width: 80%;
             margin: 0 auto;
         }
+
         .volunteer-hours-table__header {
             display: flex;
             align-items: center;
@@ -26,12 +26,14 @@
             font-weight: bold;
             background-color: #eee;
         }
+
         .volunteer-hours-table__header .create-button {
             background-color: transparent;
             border: none;
             cursor: pointer;
             font-size: 18px;
         }
+
         .volunteer-hours-table__row {
             display: flex;
             align-items: center;
@@ -41,18 +43,23 @@
             border-bottom: 1px solid #ccc;
             font-size: 14px;
         }
+
         .volunteer-hours-table__row:last-child {
             border-bottom: none;
         }
+
         .volunteer-hours-table__cell {
             flex: 0 0 120px;
         }
+
         .volunteer-hours-table__cell:first-child {
             flex: 0 0 200px;
         }
+
         .volunteer-hours-table__date {
             font-weight: bold;
         }
+
         /* Add styles for the pop-up form */
         .form-popup {
             display: none;
@@ -65,40 +72,50 @@
             padding: 16px;
             background-color: white;
         }
+
         .form-container {
             display: flex;
             flex-direction: column;
         }
+
         .form-container > * {
             margin-bottom: 16px;
         }
+
         .form-container label {
             font-weight: bold;
         }
+
         .form-container input[type="text"],
         .form-container input[type="number"] {
             padding: 8px;
             border: 1px solid #ccc;
         }
+
         .form-container input[type="submit"] {
-            /* Add your styles for the submit button here */
         }
+
         .form-container input[type="button"] {
-            /* Add your styles for the cancel button here */
         }
     </style>
 </head>
 </head>
 <body>
-<!-- Add your HTML code here -->
+
+<h5 hidden id="no_tasks_msg"
+    style="text-align: center;color: crimson">
+    There is no Open Tasks, once you got a task you can report hours for it </h5>
+
 <table class="volunteer-hours-table">
     <tr class="volunteer-hours-table__header">
         <td>Date</td>
         <td>Task</td>
-
         <td>Hours</td>
-        <td><button class="create-button">+</button></td>
+        <td>
+            <button class="create-button">+</button>
+        </td>
     </tr>
+
     {% for hours in volunteer_hours_list %}
     <tr class="volunteer-hours-table__row">
         <td class="volunteer-hours-table__date">{{ hours.date }}</td>
@@ -107,30 +124,34 @@
     </tr>
     {% endfor %}
 </table>
-<!-- Add the pop-up form -->
 <div class="form-popup">
-    <form class="form-container" method="post" action="save/">
+    <form action="save/" class="form-container" method="post">
         {% csrf_token %}
         <label for="date">Date:</label>
-        <input type="date" id="date" name="date" placeholder="Enter date">
+        <input id="date" name="date" placeholder="Enter date" required type="date">
         <label for="hours">Hours:</label>
-        <input type="number" id="hours" name="hours" placeholder="Enter hours">
+        <input id="hours" max="24" min="0" name="hours" placeholder="Enter hours" required type="number">
         <label for="task">Task:</label>
-        <select id="task" name="task">
+        <select id="task" name="task" required>
             {% for task in tasks %}
             <option value="{{ task.id }}">{{ task.description }}</option>
             {% endfor %}
         </select>
         <input type="submit" value="Submit">
-        <input type="button" value="Cancel" onclick="closeForm()">
+        <input onclick="closeForm()" type="button" value="Cancel">
     </form>
 </div>
 <script>
     const createBtn = document.querySelector(".create-button");
     const formPopup = document.querySelector(".form-popup");
-
-    createBtn.addEventListener("click", function() {
-        formPopup.style.display = "block";
+    const no_tasks_msg = document.getElementById('no_tasks_msg')
+    createBtn.addEventListener("click", function () {
+        let select = document.getElementById("task"); // Assumes the tasks are being rendered in a <select> element with id "task"
+        if (select.options.length === 0) {
+            no_tasks_msg.hidden = false;
+        } else {
+            formPopup.style.display = "block";
+        }
     });
 
     function closeForm() {

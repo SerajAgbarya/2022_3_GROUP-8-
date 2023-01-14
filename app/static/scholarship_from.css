@@ -1,0 +1,66 @@
+
+#scholarship-form {
+    width: 500px;
+    margin: 0 auto;
+    font-family: sans-serif;
+}
+
+/* Style the form elements */
+#scholarship-form .form-group {
+    margin-bottom: 20px;
+}
+
+#scholarship-form label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+#scholarship-form .form-control {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Style the error messages */
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+/* Style the submit button */
+#scholarship-form button[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+#scholarship-form button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+#cancel-button[type="button"] {
+    width: 100%;
+    background-color: gray;
+    color: white;
+    padding: 14px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#cancel-button[type="button"]:hover {
+    background-color: darkgray;
+}
+

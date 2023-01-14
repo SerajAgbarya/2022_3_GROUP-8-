@@ -1,10 +1,9 @@
-from django.contrib.auth.models import Group
-
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 
 
-def signin(request, page_name, redirect_link = "", group_name = None):
+def signin(request, page_name, redirect_link="", group_name=None):
     context = {}
     if (request.method == 'POST'):
         username = request.POST['username']
