@@ -123,23 +123,11 @@ def delete_worker(request):
     all_workers = Worker.objects.all()
     workers = []
     active = []
-    group = Group.objects.get(name='WORKER')
     for worker in all_workers:
         workers.append(worker)
     for worker in workers:
         if worker.user.is_active == True:
             active.append(worker)
-    # all_users = User.objects.all()
-    # workers = []
-    # active = []
-    # group = Group.objects.get(name='WORKER')
-    # for user in all_users:
-    #     if group in user.groups.all():
-    #         workers.append(user)
-    # for worker in workers:
-    #     if worker.is_active == True:
-    #         active.append(worker)
-
     if request.method == 'POST':
         action = request.POST['action']
         user_id = request.POST['user_id']
@@ -167,7 +155,6 @@ def worker_details(request):
     all_workers = Worker.objects.all()
     workers = []
     active = []
-    group = Group.objects.get(name='WORKER')
     for worker in all_workers:
         workers.append(worker)
     for worker in workers:
@@ -247,17 +234,6 @@ def student_list(request):
 
 
 def delete_student(request):
-    # ScholarshipRequest = models.ScholarshipRequest.objects.all()
-    # group = Group.objects.get(name='ScholarshipRequest')
-    # if request.method == 'POST':
-    #     user_id = request.POST['user_id']
-    #     ScholarshipRequest = User.objects.get(pk=user_id)
-    #     if action == 'delete':
-    #         ScholarshipRequest.delete()
-    #         messages.success(request, (f"{ScholarshipRequest.username} has been deleted"))
-    #
-    #     return HttpResponseRedirect(request.path_info)
-    # return render(request, 'delete_student.html', {'ScholarshipRequest': ScholarshipRequest})
     all_users = User.objects.all()
     students = []
     group = Group.objects.get(name='STUDENT')
