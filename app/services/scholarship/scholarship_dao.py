@@ -36,5 +36,14 @@ def update_scholarship_request_entity(current_user, form_data, scholar_ship_requ
         scholar_ship_request.special_needs = form_data['special_needs']
         scholar_ship_request.tenant = form_data['tenant']
         scholar_ship_request.user_id = current_user
+        reset_scholarship_request_entity_status(scholar_ship_request)
     else:
         raise ValueError('missing mandatory keys')
+
+
+def reset_scholarship_request_entity_status(scholar_ship_request):
+    if scholar_ship_request is None:
+        return
+    if scholar_ship_request.status == ScholarshipRequest.APPROVED:
+        return
+    scholar_ship_request.status = ScholarshipRequest.PENDING
