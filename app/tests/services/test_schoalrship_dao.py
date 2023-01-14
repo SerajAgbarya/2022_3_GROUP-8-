@@ -3,21 +3,14 @@ from django.test import TestCase
 from app.models import ScholarshipRequest
 from app.services.scholarship.scholarship_dao import get_scholarship_request, get_or_create_scholar_ship_request, \
     have_approved_request, update_scholarship_request_entity
-from app.tests.test_utils import create_student, create_scholarship_request, create_worker
+from app.tests.test_utils import create_student, create_scholarship_request, create_worker, get_scholarship_request_form
 
 
 class ScholarshipRequestTest(TestCase):
     def setUp(self):
         self.user = create_student()
         self.scholarship_request = create_scholarship_request(self.user)
-        self.form_data = {
-            'degree_year': '2022',
-            'age': '22',
-            'financial_situation': 'Good',
-            'parent_work': 'Farmer',
-            'special_needs': 'None',
-            'tenant': 'Yes',
-        }
+        self.form_data = get_scholarship_request_form()
         self.scholarship_request2 = ScholarshipRequest.objects.create(
             user_id=self.user,
             degree_year=2021,
