@@ -4,7 +4,37 @@
 <link rel="stylesheet" href="{% static 'style.css' %}"/>
 <link rel="stylesheet" href="{% static 'button.css' %}"/>
 <body>
-    <div class="breadcrumbs"><a href="/./">Home</a></div>
+    <!DOCTYPE html>
+<html>
+  <head>
+      <div class="breadcrumbs"><a href="/./">Home</a></div>
+</div>
+    <style>
+      .breadcrumbs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px; /* top-right-bottom-left */
+  background-color: #3f51b5; /* background color of the box */
+  border-radius: 20px; /* round corners of the box */
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.breadcrumbs a {
+  color: #fff; /* text color of the button */
+  text-decoration: none; /* remove underline from the button */
+  font-size: 18px; /* font size of the button */
+  padding: 10px 15px; /* top-right-bottom-left */
+  border-radius: 20px; /* round corners of the button */
+}
+
+.breadcrumbs a:hover {
+  background-color: #283593; /* background color of the button when hovered over */
+}
+}
+}
+    </style>
+  </head>
 
 <div class="card-outer">
     <div class="card">

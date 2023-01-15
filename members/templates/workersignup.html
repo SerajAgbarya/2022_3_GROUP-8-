@@ -9,43 +9,59 @@
 
   <style type="text/css">
     body {
-      color: #aa082e;
-      background-color: #b6bde7;
-      font-family: 'Roboto', sans-serif;
-    }
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+}
 
-    a:link {
-      text-decoration: none;
-    }
+.register-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-    .note {
-      text-align: center;
-      height: 80px;
-      background: -webkit-linear-gradient(left, #0072ff, #8811c5);
-      color: #fff;
-      font-weight: bold;
-      line-height: 80px;
-    }
+.note {
+  background-color: #efefef;
+  text-align: center;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
 
-    .form-content {
-      padding: 5%;
-      border: 1px solid #ced4da;
-      margin-bottom: 2%;
-    }
+.form-content {
+  display: flex;
+  flex-wrap: wrap;
+}
 
-    .form-control {
-      border-radius: 1.5rem;
-    }
+.form-group {
+  width: 100%;
+  padding: 15px;
+}
 
-    .btnSubmit {
-      border: none;
-      border-radius: 1.5rem;
-      padding: 1%;
-      width: 20%;
-      cursor: pointer;
-      background: #0062cc;
-      color: #fff;
-    }
+.form-control {
+  background-color: #f9f9f9;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.btnSubmit {
+  width: 50%;
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
   </style>
 
 </head>
@@ -108,7 +124,7 @@
             </div>
           </div>
           <button type="submit" class="btnSubmit">Register</button>
-          <div class="text-center">Already have an account? <a href="patientlogin">Login here</a></div>
+          <div class="text-center">Already have an account? <a href="members/worker_login">Login here</a></div>
         </div>
       </div>
     </div>
