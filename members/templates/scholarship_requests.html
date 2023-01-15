@@ -1,0 +1,48 @@
+<table class="table table-dark table-striped">
+                      <a href="/members/home_pageworker" class="btn btn-primary my-2">home page</a>
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Degree Year</th>
+            <th>Age</th>
+            <th>Financial Situation</th>
+            <th>Parent Work</th>
+            <th>Special Needs</th>
+            <th>Tenant</th>
+            <th>Volunteer</th>
+            <th>Status</th>
+            <th>points</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in scholarship_requests %}
+        <tr>
+            <td>{{ request.id }}</td>
+            <td>{{ request.user_id }}</td>
+            <td>{{ request.degree_year }}</td>
+            <td>{{ request.age }}</td>
+            <td>{{ request.financial_situation }}</td>
+            <td>{{ request.parent_work }}</td>
+            <td>{{ request.special_needs }}</td>
+            <td>{{ request.tenant }}</td>
+            <td>{{ request.volunteer }}</td>
+            <td>{{ request.status }}</td>
+            <td>{{ request.points }}</td>
+            <td>{{ request.points }}</td>
+
+            <td>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="request_id" value="{{ request.id }}">
+                    <input type="submit" name="action" value="accept">
+                    <input type="submit" name="action" value="reject">
+                    <input type="submit" name="action" value="under_review">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -18,6 +18,11 @@ class ManagerLoginTest(TestCase):
         group, created = Group.objects.get_or_create(name='MANAGER')
         self.user_manager.groups.add(group)
         self.user_manager.save()
+        self.user_worker = get_user_model().objects.create_user(username='test_user_worker', password='12test12',
+                                                                 email='worker_test@example.com', is_active=Falese)
+        group, created = Group.objects.get_or_create(name='WORKER')
+        self.user_worker.groups.add(group)
+        self.user_worker.save()
         self.client = Client(enforce_csrf_checks=True)
 
     def tearDown(self):
@@ -90,3 +95,64 @@ class ManagerLoginTest(TestCase):
         response = self.client.get('/members/worker_details')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'worker_details.html')
+
+    def test_worker_login(self):
+        response = self.client.get('/members/worker_login')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'worker-sign-in.html')
+        self.csrf_token = response.cookies['csrftoken'].value
+        response = self.client.post('/members/worker_login', data={'username': 'test_user', 'password': '12test12'},
+                                    HTTP_X_CSRFTOKEN=self.csrf_token)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home-worker.html')
+        print('Login success')
+    def worker_login(self):
+        response = self.client.get('/members/worker_login')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'worker-sign-in.html')
+        self.csrf_token = response.cookies['csrftoken'].value
+
+        response = self.client.post('/members/worker_login', data={'username': 'test_user', 'password': '12test12'},
+                                    HTTP_X_CSRFTOKEN=self.csrf_token)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home-worker.html')
+        print('Login success')
+    def test_add_students(self):
+        self.worker_login()
+        response = self.client.get('/members/student_list')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'student_list.html')
+    def test_worker_tasks(self):
+        self.worker_login()
+        response = self.client.get('/members/worker_tasks')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'worker_tasks.html')
+    def test_accept_scholarship(self):
+        self.worker_login()
+        response = self.client.get('/members/accept_scholarship')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'scholarship_requests.html')
+    def test_delete_student(self):
+        self.worker_login()
+        response = self.client.get('/members/delete_student')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'delete_student.html')
+
+    def test_logout_worker(self):
+        self.worker_login()
+        response = self.client.get('/members/worker_logout')
+        self.assertEqual(response.status_code, 302)
+    def test_sign_up(self):
+        response = self.client.get('/worker-signup')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'workersignup.html')
+
+    def test_worker_home_page(self):
+        response = self.client.get('/members/home_pageworker')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home-worker.html')
+
+    # def test_manager_activate_worker(self):
+    #     self.manager_login()
+    #     response = self.client.get('/members/worker_list')
+

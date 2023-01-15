@@ -22,6 +22,7 @@ urlpatterns = [
     path('delete_workhours/<int:pk>/', views.delete_workhours, name='delete_workhours'),
     path('home_pageworker', views.home_pageworker, name='home_pageworker'),
     path('worker_tasks', views.worker_tasks, name='worker_tasks'),
+    path('accept_scholarship', views.scholarship_requests, name='accept_scholarship'),
 
 
 ]

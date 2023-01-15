@@ -17,6 +17,7 @@ from cdfi import settings
 from .forms import WorkHoursForm
 from .models import WorkHours
 from .models import Worker
+from app.models import ScholarshipRequest
 
 
 @login_required
@@ -33,7 +34,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         all_users = User.objects.all()
         manager = []
-        group = Group.objects.get(name='MANAGER')
+        group = Group.objects.get(name='MANGER')
 
         if user is not None:
             if group in user.groups.all():
@@ -323,3 +324,31 @@ def worker_tasks(request):
         return redirect('worker_tasks')
 
     return render(request, html_page, {'students': students})
+
+
+
+def scholarship_requests(request):
+    # Retrieve all the scholarship requests
+    scholarship_requests = ScholarshipRequest.objects.all()
+
+    if request.method == 'POST':
+        # Get the selected scholarship request ID
+        request_id = request.POST.get('request_id')
+
+        # Get the selected action (accept or reject)
+        action = request.POST.get('action')
+
+        # Get the selected scholarship request
+        scholarship_request = ScholarshipRequest.objects.get(id=request_id)
+
+        if action == 'accept':
+            scholarship_request.status = ScholarshipRequest.APPROVED
+            scholarship_request.save()
+        elif action == 'reject':
+            scholarship_request.status = ScholarshipRequest.REJECTED
+            scholarship_request.save()
+        elif action == 'under_review':
+            scholarship_request.status = ScholarshipRequest.UNDER_REVIEW
+            scholarship_request.save()
+
+    return render(request, 'scholarship_requests.html', {'scholarship_requests': scholarship_requests})
