@@ -1,18 +1,22 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template import loader
-from .models import Worker
+
+from app.services.tasks.tasks_dao import get_tasks, create_task
+from app.services.user.user_dao import get_all_students
 from cdfi import settings
-from app import models
-from django.http import HttpResponse
 from .forms import WorkHoursForm
 from .models import WorkHours
+from .models import Worker
 
 
 @login_required
@@ -32,7 +36,7 @@ def login_user(request):
         group = Group.objects.get(name='MANAGER')
 
         if user is not None:
-            if  group in user.groups.all():
+            if group in user.groups.all():
                 login(request, user)
                 messages.success(request, ("Login success  "))
                 # Redirect to a success page.
@@ -111,7 +115,7 @@ def transfer_to_worker(request):
             from_email = settings.EMAIL_HOST_USER
             to_list = [user.email]
             send_mail(subject, message, from_email, to_list, fail_silently=True)
-            messages.success(request, (f"money has been transfered to "+user.first_name+" "+user.last_name))
+            messages.success(request, (f"money has been transfered to " + user.first_name + " " + user.last_name))
 
         return HttpResponseRedirect(request.path_info)
 
@@ -182,6 +186,8 @@ def logout_worker(request):
     logout(request)
     messages.success(request, ("You , Were logged out...  "))
     return redirect('worker_login')
+
+
 def home_pageworker(request):
     return render(request, 'home-worker.html')
 
@@ -254,10 +260,11 @@ def delete_student(request):
             user.delete()
             messages.success(request, (f"{user.username} has been deleted"))
 
-
         return HttpResponseRedirect(request.path_info)
     context = {'students': students}
     return render(request, 'delete_student.html', context)
+
+
 def add_workhours(request):
     if request.method == 'POST':
         form = WorkHoursForm(request.POST)
@@ -273,6 +280,46 @@ def view_workhours(request):
     workhours_list = WorkHours.objects.all()
     return render(request, 'view_workhours.html', {'workhours_list': workhours_list})
 
+
 def delete_workhours(request, pk):
     WorkHours.objects.filter(pk=pk).delete()
     return redirect('view_workhours')
+
+
+@login_required
+def worker_tasks(request):
+    worker = request.user
+    students_users = get_all_students()
+    students = []
+    for student_user in students_users:
+        student = {
+            'username': student_user.username,
+            'id': student_user.id
+        }
+        students.append(student)
+    html_page = 'worker_tasks.html'
+    student_id = request.GET.get('student_id')
+    if student_id is not None and request.method == 'POST':
+        student_tasks = get_tasks(User.objects.get(id=int(student_id)))
+        res = []
+        for t in student_tasks :
+            res.append({
+                'id': t.id,
+                'description': t.description,
+                'place': t.place,
+                'total_hours': t.total_hours,
+                'completed_hours': t.completed_hours,
+                'status': t.status,
+            })
+        print(res)
+        return HttpResponse(json.dumps(res), content_type='application/json')
+
+    if request.method == 'POST' and student_id is None:
+        student = request.POST['student_id']
+        description = request.POST['description']
+        place = request.POST['place']
+        hours = request.POST['hours']
+        create_task(worker, User.objects.get(id=student), place, hours, description)
+        return redirect('worker_tasks')
+
+    return render(request, html_page, {'students': students})

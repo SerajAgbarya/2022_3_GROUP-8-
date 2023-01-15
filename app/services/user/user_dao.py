@@ -44,3 +44,7 @@ def add_user_to_group(group_name, myuser):
     group_arr = Group.objects.filter(name=group_name)
     if group_arr.exists():
         myuser.groups.add(group_arr[0])
+
+
+def get_all_students():
+    return User.objects.filter(groups__name=STUDENT)
