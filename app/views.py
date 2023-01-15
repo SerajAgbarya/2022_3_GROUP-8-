@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
-
 from app.services.signIn.signIn import signin
 from app.services.signIn.signUp import signup
 from members import forms
