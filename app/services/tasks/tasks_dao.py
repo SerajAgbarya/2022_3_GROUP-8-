@@ -26,3 +26,15 @@ def progress_task(task, hours):
     task.created_at = now
     task.updated_at = now
     task.save()
+
+
+def create_task(worker, user, place, total_hours, description):
+    task = Task()
+    task.user_id = user
+    task.worker_id = worker
+    task.status = Task.TO_DO
+    task.place = place
+    task.total_hours = total_hours
+    task.completed_hours = 0
+    task.description = description
+    task.save()

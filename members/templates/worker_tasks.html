@@ -1,0 +1,250 @@
+<html>
+<head>
+    <style>
+        .student-tasks-table {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .student-tasks-table__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #eee;
+        }
+
+        .student-tasks-table__header .create-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+
+        /* Add styles for the pop-up form */
+        .form-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9;
+            border: 1px solid #ccc;
+            padding: 16px;
+            background-color: white;
+            width: 300px;
+            height: auto;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container > * {
+            margin-bottom: 16px;
+        }
+
+        .form-container label {
+            font-weight: bold;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .form-container input[type="submit"] {
+        }
+
+        .form-container input[type="button"] {
+        }
+
+
+        table {
+            margin: 0 auto; /* align table in the middle of the page */
+            border-collapse: collapse; /* remove cell spacing */
+            width: 80%; /* table width */
+        }
+
+        th, td {
+            text-align: center; /* center text in cells */
+            padding: 10px; /* add padding to cells */
+        }
+
+        th {
+            background-color: #0062cc; /* add background color to header cells */
+            color: white; /* text color for header cells */
+        }
+
+        .task-card {
+            /* styling for task-card divs */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            width: 100%; /* make task-card divs take up full width of table cell */
+        }
+
+    </style>
+</head>
+</head>
+<body>
+
+<h5 hidden id="no_student_msgs"
+    style="text-align: center;color: crimson">
+    There is no available students </h5>
+
+<table class="student-tasks-table">
+    <tr class="student-tasks-table__header">
+        <td>
+            <form>
+                <input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+                <select id="student" name="student" onchange="studentChange()">
+                    <option disabled selected value="">Select Student</option>
+                    {% for student in students %}
+                        <option value="{{ student.id }}">{{ student.username }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+        </td>
+        <td>
+            <button style="color:rebeccapurple; font-weight: bold; font-size: large" class="create-button">+</button>
+        </td>
+    </tr>
+</table>
+<br/>
+
+<table id="task-table">
+    <tr id="main_row">
+        <th>To Do</th>
+        <th>In Progress</th>
+        <th>Completed</th>
+    </tr>
+
+</table>
+
+<div class="form-popup">
+    <form action="worker_tasks" class="form-container" method="post">
+        {% csrf_token %}
+        <label for="student_id">Student: </label>
+        <select id="student_id" name="student_id" required>
+            <option disabled selected value="">Select Student</option>
+            {% for student in students %}
+                <option value="{{ student.id }}">{{ student.username }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="description">Task Description:</label>
+        <input id="description" name="description" placeholder="Enter Description For The Task" required type="text">
+        <label for="place">Task Place:</label>
+        <input id="place" name="place" placeholder="Enter Place Of The Task" required type="text">
+        <label for="hours">Task Total Hours:</label>
+        <input id="hours" min="0" name="hours" placeholder="Enter Total Hours Of The Task" required type="number">
+            <br/>
+        <input type="submit" value="Create Task">
+        <input onclick="closeForm()" type="button" value="Cancel">
+    </form>
+</div>
+<script>
+    const createBtn = document.querySelector(".create-button");
+    const formPopup = document.querySelector(".form-popup");
+    const no_tasks_msg = document.getElementById('no_tasks_msg')
+    createBtn.addEventListener("click", function () {
+        let select = document.getElementById("student"); // Assumes the tasks are being rendered in a <select> element with id "task"
+        if (select.options.length === 0) {
+            no_tasks_msg.hidden = false;
+        } else {
+            formPopup.style.display = "block";
+        }
+    });
+
+    function closeForm() {
+        formPopup.style.display = "none";
+    }
+
+    function studentChange() {
+        var student_id = document.getElementById("student").value;
+        var csrf_token = document.getElementById("csrf_token").value;
+        fetch('worker_tasks?student_id='+student_id, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrf_token
+            },
+            body: JSON.stringify({
+
+                student: student_id })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                // Update the state or data source with the new tasks
+
+                 updateTable(data);
+            });
+    }
+
+    function create_task_card(task) {
+        let taskCard = document.createElement("div");
+        taskCard.classList.add("task-card");
+
+        let taskDescription = document.createElement("h2");
+        taskDescription.innerText = task.description;
+        console.log(task.description)
+
+        let totalHours = document.createElement("p");
+        totalHours.innerText = "Total hours: " + task.total_hours;
+        console.log(task.total_hours)
+        let completedHours = document.createElement("p");
+        completedHours.innerText = "Completed hours: " + task.completed_hours;
+        console.log(task.completed_hours)
+        let location = document.createElement("p");
+        location.innerText = "Location: " + task.place;
+        console.log(task.place)
+        taskCard.appendChild(taskDescription);
+        taskCard.appendChild(totalHours);
+        taskCard.appendChild(completedHours);
+        taskCard.appendChild(location);
+        return taskCard;
+    }
+
+    function updateTable(tasks) {
+        let table = document.getElementById("task-table");
+        let main_row = document.getElementById("main_row").cloneNode(true);;
+        table.innerHTML = ''
+        table.appendChild(main_row);
+        tasks.forEach(function(task) {
+            let newRow = document.createElement("tr");
+            table.appendChild(newRow);
+            let todoCell = document.createElement("td");
+            let inProgressCell = document.createElement("td");
+            let completedCell = document.createElement("td");
+            newRow.appendChild(todoCell);
+            newRow.appendChild(inProgressCell);
+            newRow.appendChild(completedCell);
+
+            let taskCard = create_task_card(task);
+
+            if (task.status === "TO_DO") {
+                todoCell.appendChild(taskCard);
+            } else if (task.status === "IN_PROGRESS") {
+                inProgressCell.appendChild(taskCard);
+            } else if (task.status === "COMPLETED") {
+                completedCell.appendChild(taskCard);
+            }
+        });
+    }
+</script>
+</body>
+</html>
+
