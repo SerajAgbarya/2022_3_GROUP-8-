@@ -347,5 +347,8 @@ def scholarship_requests(request):
         elif action == 'reject':
             scholarship_request.status = ScholarshipRequest.REJECTED
             scholarship_request.save()
+        elif action == 'under_review':
+            scholarship_request.status = ScholarshipRequest.UNDER_REVIEW
+            scholarship_request.save()
 
     return render(request, 'scholarship_requests.html', {'scholarship_requests': scholarship_requests})
