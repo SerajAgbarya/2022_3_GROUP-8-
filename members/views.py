@@ -34,7 +34,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         all_users = User.objects.all()
         manager = []
-        group = Group.objects.get(name='MANAGER')
+        group = Group.objects.get(name='MANGER')
 
         if user is not None:
             if group in user.groups.all():
