@@ -5,9 +5,8 @@
 
 #### Pre install required packages
 
-1. run ``
-2. run ``
-3. run ``
+1. run `pip install django`
+
 
 #### Steps:
 #### if you download the system for first time:
@@ -33,7 +32,8 @@ then run all steps above.
 1. if failed with
    `from six import text_type ModuleNotFoundError: No module named 'six'`
    -> fix by : `python -m pip install six`
-2. if you run by mistake higher version of migration , (or if you want to recreate all tables from scratch)
+2.  if failed with -> `no widget-tweaks` ->fix by: `pip install django-widget-tweaks`
+3. if you run by mistake higher version of migration , (or if you want to recreate all tables from scratch)
    you can reinstall the all migration by for the specific module (app or members):
     1. drop your tables manually from the database
     2. run `python3 manage.py migrate app zero --fake`
@@ -63,3 +63,8 @@ for app module test:
 
 1. in case you created new directory/package u must have __init__.py The __init__.py should be an empty file (this tells
    Python that the directory is a package)
+
+
+### Data base
+1. shift shift `->` Action `->` plugins `->` database navigator `->` install `->` DB browser `->` plus button `->` SQLite `->` 
+Database files `->` main `->` 3 dots `-> `choose db.sqlite3 from your project `->` test connection `->` apply `->` ok                      
